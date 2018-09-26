@@ -33,6 +33,13 @@
       </geometry>
     </collision>
   </link>
+
+  <link name="world"/>
+  <joint name="reference" type="floating">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
   <!-- TODO: Update dynamic models -->
   <!-- TODO: Update dynamic models -->
   <gazebo reference="imu_link">
@@ -1653,27 +1660,6 @@
       <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
     </inertial>
   </link>
-  <joint name="hand_right_indication_joint" type="fixed">
-    <parent link="hand_right_palm_link"/>
-    <child link="hand_right_indication_link"/>
-    <origin rpy="0 0 0" xyz="0.1 0 0.0125"/>
-  </joint>
-  <link name="hand_right_indication_link">
-    <inertial>
-      <origin rpy="1.57 0 0" xyz="0 0 -0.0125"/>
-      <mass value="0.0"/>
-      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.0125"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.01"/>
-      </geometry>
-      <material name="">
-        <color rgba="0 0.5 0 1.0"/>
-      </material>
-    </visual>
-  </link>
   <gazebo reference="hand_right_palm_link">
     <kp>1000000.0</kp>
     <kd>100.0</kd>
@@ -1719,27 +1705,6 @@
       <mass value="0"/>
       <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
     </inertial>
-  </link>
-  <joint name="hand_left_indication_joint" type="fixed">
-    <parent link="hand_left_palm_link"/>
-    <child link="hand_left_indication_link"/>
-    <origin rpy="0 0 0" xyz="0.1 0 0.0125"/>
-  </joint>
-  <link name="hand_left_indication_link">
-    <inertial>
-      <origin rpy="-1.57 0 0" xyz="0 0 -0.0125"/>
-      <mass value="0.0"/>
-      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.0125"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.01"/>
-      </geometry>
-      <material name="">
-        <color rgba="0 0.5 0 1.0"/>
-      </material>
-    </visual>
   </link>
   <gazebo reference="hand_left_palm_link">
     <kp>1000000.0</kp>

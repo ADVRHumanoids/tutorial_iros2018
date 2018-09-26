@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+
+<robot name="reemc" xmlns:xacro="http://ros.org/wiki/xacro">
+  <group name="base">
+    <link name="base_link"/>
+  </group>
+
+  <group name="left_leg">
+    <chain base_link="base_link" tip_link="left_sole_link"/>
+  </group>
+  <group name="right_leg">
+    <chain base_link="base_link" tip_link="right_sole_link"/>
+  </group>
+  <group name="torso">
+    <chain base_link="base_link" tip_link="torso_2_link"/>
+  </group>
+  <group name="left_arm">
+    <chain base_link="torso_2_link" tip_link="hand_left_palm_link"/>
+  </group>
+  <group name="right_arm">
+    <chain base_link="torso_2_link" tip_link="hand_right_palm_link"/>
+  </group>
+  <group name="neck">
+    <chain base_link="torso_2_link" tip_link="head_sonar_03_link"/>
+  </group>
+  
+  <group name="chains">
+    <group name="left_leg"/>
+    <group name="right_leg"/>
+    <group name="torso"/>
+    <group name="left_arm"/>
+    <group name="right_arm"/>
+    <group name="neck"/>
+  </group>
+  
+  
+  <group_state name="home" group="chains">
+
+        <joint name="leg_right_1_joint" value="0.0"/>
+        <joint name="leg_right_2_joint" value="0.0"/>
+        <joint name="leg_right_3_joint" value="-0.3"/>
+        <joint name="leg_right_4_joint" value="0.6"/>
+        <joint name="leg_right_5_joint" value="-0.3"/>
+        <joint name="leg_right_6_joint" value="0.0"/>
+
+        <joint name="leg_left_1_joint" value="0.0"/>
+        <joint name="leg_left_2_joint" value="0.0"/>
+        <joint name="leg_left_3_joint" value="-0.3"/>
+        <joint name="leg_left_4_joint" value="0.6"/>
+        <joint name="leg_left_5_joint" value="-0.3"/>
+        <joint name="leg_left_6_joint" value="0.0"/>  
+
+        <joint name="torso_1_joint" value="0.0"/>
+        <joint name="torso_2_joint" value="0.0"/>
+
+        <joint name="head_1_joint" value="0.0"/>
+        <joint name="head_2_joint" value="0.0"/>
+
+        <joint name="arm_right_1_joint" value="-0.3"/>
+        <joint name="arm_right_2_joint" value="0.2"/>
+        <joint name="arm_right_3_joint" value="0.0"/>
+        <joint name="arm_right_4_joint" value="1.57"/>
+        <joint name="arm_right_5_joint" value="0.0"/>
+        <joint name="arm_right_6_joint" value="0.0"/>
+        <joint name="arm_right_7_joint" value="0.0"/>
+
+	<joint name="arm_left_1_joint" value="-0.3"/>
+        <joint name="arm_left_2_joint" value="0.2"/>
+        <joint name="arm_left_3_joint" value="0.0"/>
+        <joint name="arm_left_4_joint" value="1.57"/>
+        <joint name="arm_left_5_joint" value="0.0"/>
+        <joint name="arm_left_6_joint" value="0.0"/>
+        <joint name="arm_left_7_joint" value="0.0"/>
+        
+    </group_state>
+</robot>
