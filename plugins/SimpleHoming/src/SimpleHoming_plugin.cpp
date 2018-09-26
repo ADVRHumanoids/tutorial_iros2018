@@ -33,12 +33,23 @@ bool SimpleHoming::init_control_plugin(XBot::Handle::Ptr handle)
 
     /* Save robot to a private member. */
     _robot = handle->getRobotInterface();
+    
+    /* Get a homing posture from SRDF */
+    _robot->getRobotState("home", _qhome);
+    
+    /* Allocate all vectors to be used inside control loop */
+    _q0.setZero(_robot->getJointNum());
+    _qref.setZero(_robot->getJointNum());
+    _qdotref.setZero(_robot->getJointNum());
 
     /* Initialize a logger which saves to the specified file. Remember that
      * the current date/time is always appended to the provided filename,
-     * so that logs do not overwrite each other. */
+     * so that logs do not overwrite each other. Preallocate 10000 samples per variable. */
 
     _logger = XBot::MatLogger::getLogger("/tmp/SimpleHoming_log");
+    _logger->createScalarVariable("time", 1, 10000);
+    _logger->createVectorVariable("qref", _robot->getJointNum(), 1, 10000);
+    _logger->createVectorVariable("qrefdot", _robot->getJointNum(), 1, 10000);
 
     return true;
 
@@ -83,14 +94,38 @@ void SimpleHoming::control_loop(double time, double period)
     if(!current_command.str().empty()){
 
         if(current_command.str() == "MY_COMMAND_1"){
-            /* Handle command */
+            XBot::Logger::info(Logger::Severity::HIGH, "My command 1 executed! \n");
         }
 
         if(current_command.str() == "MY_COMMAND_2"){
-            /* Handle command */
+            XBot::Logger::info(Logger::Severity::HIGH, "My command 2 executed! \n");
         }
 
     }
+    
+
+    
+    double duration = 1.0; // just some > 0 value in order to get inside the while loop
+    
+    while(time < _start_time + duration)
+    {
+        XBot::Utils::FifthOrderTrajectory(_start_time, _q0,  // [in] provide start time and posture
+                                          _qhome,            // [in] target posture
+                                          1.0,               // [in] max joint speed
+                                          time,              // [in] current time
+                                          _qref, _qdotref,   // [out] q/qdot references are returned
+                                          duration           // [out] total duration of the trajectory
+                                          );
+        
+        _logger->add("time", time);
+        _logger->add("qref", _qref);
+        _logger->add("qdot_ref", _qdotref);
+        
+        _robot->setPositionReference(_qref);
+        _robot->move();
+    }
+    
+    
 
 }
 

@@ -17,49 +17,40 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-#ifndef SimpleHoming_PLUGIN_H_
-#define SimpleHoming_PLUGIN_H_
+#ifndef GcompIO_IOPLUGIN_H_
+#define GcompIO_IOPLUGIN_H_
 
-#include <XCM/XBotControlPlugin.h>
+#include <XCM/IOPlugin.h>
+#include <XBotCore-interfaces/XBotSharedMemory.h>
 
 
 namespace XBotPlugin {
 
 /**
- * @brief SimpleHoming XBot RT Plugin
+ * @brief GcompIO XBot IO Plugin. This plugin extends the CommunicationHandler
+ * loop with custom functionalities.
  *
  **/
-class SimpleHoming : public XBot::XBotControlPlugin
+class GcompIO : public XBot::IOPlugin
 {
 
 public:
 
-    virtual bool init_control_plugin(XBot::Handle::Ptr handle);
+    virtual bool init(std::string path_to_config_file, XBot::SharedMemory::Ptr shmem);
 
-    virtual bool close();
+    virtual void run();
 
-    virtual void on_start(double time);
-
-    virtual void on_stop(double time);
-    
-    virtual ~SimpleHoming();
+    virtual void close();
 
 protected:
 
-    virtual void control_loop(double time, double period);
 
 private:
 
-    XBot::RobotInterface::Ptr _robot;
 
-    double _start_time;
-
-    Eigen::VectorXd _q0, _qhome, _qref, _qdotref;
-
-    XBot::MatLogger::Ptr _logger;
 
 };
 
 }
 
-#endif // SimpleHoming_PLUGIN_H_
+#endif // GcompIO_PLUGIN_H_
