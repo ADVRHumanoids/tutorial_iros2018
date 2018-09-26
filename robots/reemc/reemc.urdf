@@ -1696,5 +1696,8 @@
     <parent link="base_link"/>
     <child link="imu_link"/>
   </joint>
+  <gazebo>
+    <plugin name="xbot_plugin_handler" filename="libGazeboXBotPlugin.so"/>
+  </gazebo>
 </robot>
 
