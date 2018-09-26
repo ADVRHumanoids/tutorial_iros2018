@@ -32,12 +32,21 @@ bool GcompPlugin::init_control_plugin(XBot::Handle::Ptr handle)
      * The RT plugin will be executed only if this init function returns true. */
     
     
-    /* Define contact links */
-    _contact_links = {"wheel_1", "wheel_2", "wheel_3", "wheel_4"};
+    
     
     /* Get robot and imu objects */
     _robot = handle->getRobotInterface();
-    _imu = _robot->getImu().begin()->second; 
+    if(!_robot->getImu().empty())
+    {
+        _imu = _robot->getImu().begin()->second; 
+    }
+    
+    /* Define contact links from SRDF legs */
+    for(int i = 0; i < _robot->legs(); i++)
+    {
+        std::cout << "Adding contact link " << _robot->leg(i).getTipLinkName() << std::endl;
+        _contact_links.push_back(_robot->leg(i).getTipLinkName());
+    }
     
     /* Get model and initialize it to homing */
     _model = XBot::ModelInterface::getModel(handle->getPathToConfigFile());
@@ -53,7 +62,7 @@ bool GcompPlugin::init_control_plugin(XBot::Handle::Ptr handle)
     _k = _k0;
     
     /* Construct object for force optimization */
-    _force_opt = boost::make_shared<ForceOptimization>(_model, _contact_links, false);
+    _force_opt = boost::make_shared<ForceOptimization>(_model, _contact_links, true);
     
     /* Register object inside shared memory */
     _shobj_stiffness = handle->getSharedMemory()->getSharedObject<double>("/desired_stiffness_gain");
@@ -95,8 +104,11 @@ void GcompPlugin::control_loop(double time, double period)
     _model->syncFrom(*_robot, XBot::Sync::Position, XBot::Sync::MotorSide);
     
     /* Set floating base state from IMU (orientation and angular velocity) */
-    _model->setFloatingBaseState(_imu);
-    _model->update();
+    if(_imu)
+    {
+        _model->setFloatingBaseState(_imu);
+        _model->update();
+    }
     
     /* Compute gcomp (assumes all joints are actuated) */
     _model->computeGravityCompensation(_gcomp);

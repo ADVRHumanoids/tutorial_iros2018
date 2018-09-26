@@ -24,7 +24,17 @@
     <chain base_link="torso_2_link" tip_link="head_sonar_03_link"/>
   </group>
   
-  <group name="chains">
+  <group name="arms">
+    <group name="left_arm"/>
+    <group name="right_arm"/>
+  </group>
+
+  <group name="legs">
+    <group name="left_leg"/>
+    <group name="right_leg"/>
+  </group>
+  
+   <group name="chains">
     <group name="left_leg"/>
     <group name="right_leg"/>
     <group name="torso"/>
@@ -32,7 +42,6 @@
     <group name="right_arm"/>
     <group name="neck"/>
   </group>
-  
   
   <group_state name="home" group="chains">
 
