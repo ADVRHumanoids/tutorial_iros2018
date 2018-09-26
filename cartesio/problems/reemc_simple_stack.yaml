@@ -3,10 +3,10 @@ solver_options:
     back_end: "osqp"
 
 stack:
-    - ["LFoot","RFoot","Head"]
-    - ["CoMXY","WaistYaw"]
-    - ["LArm","RArm"]
-    - ["BP"]
+    - ["LFoot", "RFoot", "HeadPostural"]
+    - ["CoMXY", "WaistYaw"]
+    - ["LArm", "RArm"]
+    - ["BodyPostural"]
     
 constraints: ["JointLimits", "VelocityLimits"]
 
@@ -50,11 +50,11 @@ CoMXY:
     lambda: 0.1
     indices: [0,1]
     
-BP:
+BodyPostural:
     type: "Postural"
     lambda: 0.1
 
-Head:
+HeadPostural:
     type: "Postural"
     indices: [34, 35]
     lambda: 0.1

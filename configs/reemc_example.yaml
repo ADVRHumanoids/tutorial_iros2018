@@ -1,0 +1,33 @@
+XBotCore:
+  config_path: "external/tutorial_iros2018/configs/reemc/xbotcore/reemc_config.yaml"
+
+XBotInterface:
+  urdf_path: "external/tutorial_iros2018/configs/reemc/urdf/reemc.urdf"
+  srdf_path: "external/tutorial_iros2018/configs/reemc/srdf/reemc.srdf"
+  joint_map_path: "external/tutorial_iros2018/configs/reemc/joint_id_map/reemc_joint_map.yaml"
+
+RobotInterface:
+  framework_name: "ROS"
+
+ModelInterface:
+  model_type: "RBDL"
+  is_model_floating_base: "true"
+  
+MasterCommunicationInterface:
+  framework_name: "ROS"
+
+XBotRTPlugins:
+  plugins: ["HomingExample"]
+  io_plugins: []
+  
+NRTPlugins:
+  plugins: []
+  
+  
+WebServer:
+  enable: "true"
+  address: "127.0.0.1"
+  port: "8081"
+
+SimulationOptions:
+  verbose_mode: "false"
