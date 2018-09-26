@@ -370,36 +370,6 @@
     <dynamics damping="1" friction="1.0"/>
     <limit effort="60" lower="0" upper="0" velocity="20"/>
   </joint>
-  <gazebo reference="right_laser_link">
-    <sensor name="right_laser_sensor" type="ray">
-      <pose>0 0 0 0 0 0</pose>
-      <visualize>false</visualize>
-      <update_rate>10.0</update_rate>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>360</samples>
-            <resolution>1</resolution>
-            <min_angle>-1.57079632679</min_angle>
-            <max_angle>1.57079632679</max_angle>
-          </horizontal>
-        </scan>
-        <range>
-          <min>0.02</min>
-          <max>5.6</max>
-          <resolution>0.01</resolution>
-        </range>
-      </ray>
-      <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_laser">
-        <frameName>/right_laser_link</frameName>
-        <topicName>right_scan</topicName>
-        <gaussianNoise>0.03</gaussianNoise>
-        <hokuyoMinIntensity>101</hokuyoMinIntensity>
-        <updateRate>10.0</updateRate>
-        <alwaysOn>true</alwaysOn>
-      </plugin>
-    </sensor>
-  </gazebo>
   <link name="leg_left_1_link">
     <inertial>
       <mass value="1.02901"/>
@@ -648,36 +618,6 @@
     <dynamics damping="1" friction="1.0"/>
     <limit effort="60" lower="0" upper="0" velocity="20"/>
   </joint>
-  <gazebo reference="left_laser_link">
-    <sensor name="left_laser_sensor" type="ray">
-      <pose>0 0 0 0 0 0</pose>
-      <visualize>false</visualize>
-      <update_rate>10.0</update_rate>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>360</samples>
-            <resolution>1</resolution>
-            <min_angle>-1.57079632679</min_angle>
-            <max_angle>1.57079632679</max_angle>
-          </horizontal>
-        </scan>
-        <range>
-          <min>0.02</min>
-          <max>5.6</max>
-          <resolution>0.01</resolution>
-        </range>
-      </ray>
-      <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_laser">
-        <frameName>/left_laser_link</frameName>
-        <topicName>left_scan</topicName>
-        <gaussianNoise>0.03</gaussianNoise>
-        <hokuyoMinIntensity>101</hokuyoMinIntensity>
-        <updateRate>10.0</updateRate>
-        <alwaysOn>true</alwaysOn>
-      </plugin>
-    </sensor>
-  </gazebo>
   <!--************************-->
   <!--        TORSO_1         -->
   <!--************************-->
@@ -766,45 +706,6 @@
     <parent link="torso_2_link"/>
     <child link="torso_sonar_01_link"/>
   </joint>
-  <gazebo reference="torso_sonar_01_link">
-    <sensor name="torso_sonar_01" type="ray">
-      <pose>0 0 0 0 0 0</pose>
-      <update_rate>5</update_rate>
-      <visualize>false</visualize>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </horizontal>
-          <vertical>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </vertical>
-        </scan>
-        <range>
-          <min>0.005</min>
-          <max>0.7</max>
-          <resolution>0.01</resolution>
-        </range>
-      </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-        <gaussianNoise>0.005</gaussianNoise>
-        <alwaysOn>true</alwaysOn>
-        <updateRate>5</updateRate>
-        <topicName>sonar_torso</topicName>
-        <frameName>torso_sonar_01_link</frameName>
-        <minRange>0.005</minRange>
-        <maxRange>0.7</maxRange>
-        <fov>0.3491</fov>
-        <radiation>ultrasound</radiation>
-      </plugin>
-    </sensor>
-  </gazebo>
   <link name="torso_sonar_02_link">
     <inertial>
       <mass value="0.001"/>
@@ -818,45 +719,6 @@
     <parent link="torso_2_link"/>
     <child link="torso_sonar_02_link"/>
   </joint>
-  <gazebo reference="torso_sonar_02_link">
-    <sensor name="torso_sonar_02" type="ray">
-      <pose>0 0 0 0 0 0</pose>
-      <update_rate>5</update_rate>
-      <visualize>false</visualize>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </horizontal>
-          <vertical>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </vertical>
-        </scan>
-        <range>
-          <min>0.005</min>
-          <max>0.7</max>
-          <resolution>0.01</resolution>
-        </range>
-      </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-        <gaussianNoise>0.005</gaussianNoise>
-        <alwaysOn>true</alwaysOn>
-        <updateRate>5</updateRate>
-        <topicName>sonar_torso</topicName>
-        <frameName>torso_sonar_02_link</frameName>
-        <minRange>0.005</minRange>
-        <maxRange>0.7</maxRange>
-        <fov>0.3491</fov>
-        <radiation>ultrasound</radiation>
-      </plugin>
-    </sensor>
-  </gazebo>
   <link name="torso_sonar_04_link">
     <inertial>
       <mass value="0.001"/>
@@ -870,45 +732,6 @@
     <parent link="torso_2_link"/>
     <child link="torso_sonar_04_link"/>
   </joint>
-  <gazebo reference="torso_sonar_04_link">
-    <sensor name="torso_sonar_04" type="ray">
-      <pose>0 0 0 0 0 0</pose>
-      <update_rate>5</update_rate>
-      <visualize>false</visualize>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </horizontal>
-          <vertical>
-            <samples>5</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.17455</min_angle>
-            <max_angle>0.17455</max_angle>
-          </vertical>
-        </scan>
-        <range>
-          <min>0.005</min>
-          <max>0.7</max>
-          <resolution>0.01</resolution>
-        </range>
-      </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-        <gaussianNoise>0.005</gaussianNoise>
-        <alwaysOn>true</alwaysOn>
-        <updateRate>5</updateRate>
-        <topicName>sonar_torso</topicName>
-        <frameName>torso_sonar_04_link</frameName>
-        <minRange>0.005</minRange>
-        <maxRange>0.7</maxRange>
-        <fov>0.3491</fov>
-        <radiation>ultrasound</radiation>
-      </plugin>
-    </sensor>
-  </gazebo>
   <link name="head_1_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0.01819 0.00248 -0.00517"/>
@@ -1796,56 +1619,6 @@
       <material name="Blue"/>
     </visual>
   </link>
-  <gazebo reference="stereo_link">
-    <sensor name="gazebo_stereo_camera" type="multicamera">
-      <update_rate>25.0</update_rate>
-      <camera name="left">
-        <horizontal_fov>1.23918376892</horizontal_fov>
-        <image>
-          <width>659 </width>
-          <height> 493</height>
-          <format>B8G8R8</format>
-        </image>
-        <clip>
-          <near>0.01</near>
-          <far>100</far>
-        </clip>
-      </camera>
-      <camera name="right">
-        <pose>0 -0.073 0 0 0 0</pose>
-        <!-- the pose is wrt /stereo_link which is the parent of stereo_optical_frame -->
-        <horizontal_fov>1.23918376892</horizontal_fov>
-        <image>
-          <width>659 </width>
-          <height> 493</height>
-          <format>B8G8R8</format>
-        </image>
-        <clip>
-          <near>0.01</near>
-          <far>100</far>
-        </clip>
-      </camera>
-      <plugin filename="libgazebo_ros_multicamera.so" name="stereo_camera_controller">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>25.0</updateRate>
-        <cameraName>stereo</cameraName>
-        <imageTopicName>image</imageTopicName>
-        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <frameName>stereo_optical_frame</frameName>
-        <hackBaseline>0.073</hackBaseline>
-        <CxPrime>330.0</CxPrime>
-        <Cx>330.0</Cx>
-        <Cy>247.0</Cy>
-        <focalLength>461.943804</focalLength>
-        <!-- image_width / (2*tan(hfov_radian /2)) -->
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-      </plugin>
-    </sensor>
-  </gazebo>
   <joint name="back_camera_frame_joint" type="fixed">
     <origin rpy="-1.57079632679 0 3.14159265359" xyz="-0.128 -0.317 0"/>
     <parent link="torso_2_link"/>
@@ -1905,42 +1678,6 @@
       <material name="Blue"/>
     </visual>
   </link>
-  <gazebo reference="back_camera_link">
-    <sensor name="gazebo_back_camera_camera" type="camera">
-      <update_rate>15.0</update_rate>
-      <camera>
-        <horizontal_fov>1.57078675232</horizontal_fov>
-        <image>
-          <width>752 </width>
-          <height> 480</height>
-          <format>B8G8R8</format>
-        </image>
-        <clip>
-          <near>0.01</near>
-          <far>100</far>
-        </clip>
-      </camera>
-      <plugin filename="libgazebo_ros_camera.so" name="monocular_camera_controller">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>15.0</updateRate>
-        <cameraName>back_camera</cameraName>
-        <imageTopicName>image</imageTopicName>
-        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <frameName>back_camera_optical_frame</frameName>
-        <hackBaseline>0</hackBaseline>
-        <CxPrime>376.5</CxPrime>
-        <Cx>376.5</Cx>
-        <Cy>240.5</Cy>
-        <focalLength>376.002379</focalLength>
-        <!-- image_width / (2*tan(hfov_radian /2)) -->
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-      </plugin>
-    </sensor>
-  </gazebo>
   <link name="imu_link">
     <inertial>
       <mass value="0.01"/>
