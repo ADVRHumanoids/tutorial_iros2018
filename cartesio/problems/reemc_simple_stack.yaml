@@ -1,0 +1,57 @@
+solver_options:
+    regularization: 1e-6
+    back_end: "osqp"
+
+stack:
+    - ["LFoot","RFoot","Head"]
+    - ["CoMXY","WaistYaw"]
+    - ["LArm","RArm"]
+    - ["BP"]
+    
+constraints: ["JointLimits", "VelocityLimits"]
+
+LFoot:
+    type: "Cartesian"
+    distal_link: "left_sole_link"
+    base_link: "world"
+
+RFoot:
+    type: "Cartesian"
+    distal_link: "right_sole_link"
+    base_link: "world"
+
+LArm:
+    type: "Cartesian"
+    distal_link: "hand_left_palm_link"
+    base_link: "world"
+    lambda: 0.1
+
+RArm:
+    type: "Cartesian"
+    distal_link: "hand_right_palm_link"
+    base_link: "world"
+    lambda: 0.1
+
+WaistYaw:
+    type: "Cartesian"
+    distal_link: "torso_2_link"
+    base_link: "world"
+    lambda: 0.1
+    indices: [5]
+
+
+CoMXY:
+    type: "Com"
+    lambda: 0.1
+    indices: [0,1]
+    
+BP:
+    type: "Postural"
+    lambda: 0.1
+
+Head:
+    type: "Postural"
+    indices: [34, 35]
+    lambda: 0.1
+
+
