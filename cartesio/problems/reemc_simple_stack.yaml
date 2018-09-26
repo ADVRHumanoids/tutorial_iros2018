@@ -10,6 +10,11 @@ stack:
     
 constraints: ["JointLimits", "VelocityLimits"]
 
+
+################################################
+############### TASK DEFINITIONS ###############
+################################################
+
 LFoot:
     type: "Cartesian"
     distal_link: "left_sole_link"

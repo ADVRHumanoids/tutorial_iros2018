@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package>
   <name>tutorial_iros2018</name>
-  <version>0.1</version>
+  <version>1.0.0</version>
   <description>This package containts the material for the IROS2018 tutorial.</description>
-  <maintainer>advr</maintainer>
+  <maintainer email="luca.murature@iit.it">advr</maintainer>
   <license>Creative Commons BY-NC-ND 3.0</license>
 
   <buildtool_depend>catkin</buildtool_depend>
