@@ -26,6 +26,9 @@ namespace XBotPlugin {
 
 bool XBotPlugin::GcompIO::init(std::string path_to_config_file, XBot::SharedMemory::Ptr shmem)
 {
+    _sub = _nh.subscribe("/desired_stiffness_gain", 1, &XBotPlugin::GcompIO::callback, this);
+    _shobj_stiffness = shmem->getSharedObject<double>("/desired_stiffness_gain");
+    
     return true;
 }
 
@@ -37,6 +40,11 @@ void XBotPlugin::GcompIO::run()
 void XBotPlugin::GcompIO::close()
 {
 
+}
+
+void GcompIO::callback(const std_msgs::Float64ConstPtr& msg)
+{
+    _shobj_stiffness.set(msg->data);
 }
 
 

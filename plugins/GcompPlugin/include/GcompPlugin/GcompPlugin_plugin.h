@@ -21,6 +21,7 @@
 #define GcompPlugin_PLUGIN_H_
 
 #include <XCM/XBotControlPlugin.h>
+#include <OpenSoT/utils/ForceOptimization.h>
 
 
 namespace XBotPlugin {
@@ -51,12 +52,22 @@ protected:
 private:
 
     XBot::RobotInterface::Ptr _robot;
+    XBot::ModelInterface::Ptr _model;
+    XBot::ImuSensor::ConstPtr _imu;
+    
+    XBot::SharedObject<double> _shobj_stiffness;
 
     double _start_time;
 
-    Eigen::VectorXd _q0;
+    std::vector<std::string> _contact_links;
+    std::vector<Eigen::Vector6d> _Fc;
+    
+    Eigen::VectorXd _gcomp, _tau_d, _k0, _k;
+    Eigen::MatrixXd _JC;
 
     XBot::MatLogger::Ptr _logger;
+    
+    OpenSoT::utils::ForceOptimization::Ptr _force_opt;
 
 };
 

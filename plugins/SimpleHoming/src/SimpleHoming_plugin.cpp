@@ -106,12 +106,13 @@ void SimpleHoming::control_loop(double time, double period)
 
     
     double duration = 1.0; // just some > 0 value in order to get inside the while loop
+    const double MAX_SPEED = 1.0; // rad / s
     
     while(time < _start_time + duration)
     {
         XBot::Utils::FifthOrderTrajectory(_start_time, _q0,  // [in] provide start time and posture
                                           _qhome,            // [in] target posture
-                                          1.0,               // [in] max joint speed
+                                          MAX_SPEED,         // [in] max joint speed
                                           time,              // [in] current time
                                           _qref, _qdotref,   // [out] q/qdot references are returned
                                           duration           // [out] total duration of the trajectory

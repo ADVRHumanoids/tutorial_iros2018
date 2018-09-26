@@ -22,7 +22,8 @@
 
 #include <XCM/IOPlugin.h>
 #include <XBotCore-interfaces/XBotSharedMemory.h>
-
+#include <ros/ros.h>
+#include <std_msgs/Float64.h>
 
 namespace XBotPlugin {
 
@@ -46,7 +47,12 @@ protected:
 
 
 private:
+    
+    void callback(const std_msgs::Float64ConstPtr& msg);
 
+    ros::NodeHandle _nh;
+    ros::Subscriber _sub;
+    XBot::SharedObject<double> _shobj_stiffness;
 
 
 };

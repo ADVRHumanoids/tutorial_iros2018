@@ -26,20 +26,39 @@ namespace XBotPlugin {
 
 bool GcompPlugin::init_control_plugin(XBot::Handle::Ptr handle)
 {
+    
     /* This function is called outside the real time loop, so we can
      * allocate memory on the heap, print stuff, ...
      * The RT plugin will be executed only if this init function returns true. */
-
-
-    /* Save robot to a private member. */
+    
+    
+    /* Define contact links */
+    _contact_links = {"wheel_1", "wheel_2", "wheel_3", "wheel_4"};
+    
+    /* Get robot and imu objects */
     _robot = handle->getRobotInterface();
-
-    /* Initialize a logger which saves to the specified file. Remember that
-     * the current date/time is always appended to the provided filename,
-     * so that logs do not overwrite each other. */
-
-    _logger = XBot::MatLogger::getLogger("/tmp/GcompPlugin_log");
-
+    _imu = _robot->getImu().begin()->second; 
+    
+    /* Get model and initialize it to homing */
+    _model = XBot::ModelInterface::getModel(handle->getPathToConfigFile());
+    Eigen::VectorXd qhome;
+    _model->getRobotState("home", qhome);
+    _model->setJointPosition(qhome);
+    _model->update();
+    
+    /* Allocate vectors */
+    _model->computeGravityCompensation(_gcomp);
+    _tau_d = _gcomp;
+    _robot->getStiffness(_k0);
+    _k = _k0;
+    
+    /* Construct object for force optimization */
+    _force_opt = boost::make_shared<ForceOptimization>(_model, _contact_links, false);
+    
+    /* Register object inside shared memory */
+    _shobj_stiffness = handle->getSharedMemory()->getSharedObject<double>("/desired_stiffness_gain");
+    _shobj_stiffness.set(1.0);
+    
     return true;
 
 
@@ -52,11 +71,8 @@ void GcompPlugin::on_start(double time)
      * Since this function is called within the real-time loop, you should not perform
      * operations that are not rt-safe. */
 
-    /* Save the robot starting config to a class member */
-    _robot->getMotorPosition(_q0);
-
-    /* Save the plugin starting time to a class member */
-    _start_time = time;
+    _robot->getStiffness(_k0);
+    _k = _k0;
 }
 
 void GcompPlugin::on_stop(double time)
@@ -75,22 +91,32 @@ void GcompPlugin::control_loop(double time, double period)
      * Since this function is called within the real-time loop, you should not perform
      * operations that are not rt-safe. */
 
-    /* The following code checks if any command was received from the plugin standard port
-     * (e.g. from ROS you can send commands with
-     *         rosservice call /GcompPlugin_cmd "cmd: 'MY_COMMAND_1'"
-     * If any command was received, the code inside the if statement is then executed. */
-
-    if(!current_command.str().empty()){
-
-        if(current_command.str() == "MY_COMMAND_1"){
-            /* Handle command */
-        }
-
-        if(current_command.str() == "MY_COMMAND_2"){
-            /* Handle command */
-        }
-
+    /* Take model state from robot state */
+    _model->syncFrom(*_robot, XBot::Sync::Position, XBot::Sync::MotorSide);
+    
+    /* Set floating base state from IMU (orientation and angular velocity) */
+    _model->setFloatingBaseState(_imu);
+    _model->update();
+    
+    /* Compute gcomp (assumes all joints are actuated) */
+    _model->computeGravityCompensation(_gcomp);
+    
+    /* Compute under-actuated torques and forces that realize the gcomp torque */
+    _force_opt->compute(_gcomp, _Fc, _tau_d);
+    _model->setJointEffort(_tau_d); // set them inside the model state
+    
+    /* Set the effort from the model as reference for robot torque controllers */
+    _robot->setReferenceFrom(*_model, XBot::Sync::Effort); // , XBot::Sync::Impedance);
+    
+    /* Get desired stiffness from the GcompIO */
+    double stiffness_gain = 1.0;
+    if(_shobj_stiffness.try_get(stiffness_gain))
+    {
+        _k = stiffness_gain * _k0;
+        _robot->setStiffness(_k);
     }
+    
+    _robot->move();
 
 }
 
