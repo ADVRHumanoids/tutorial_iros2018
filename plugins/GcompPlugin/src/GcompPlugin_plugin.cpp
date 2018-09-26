@@ -62,7 +62,7 @@ bool GcompPlugin::init_control_plugin(XBot::Handle::Ptr handle)
     _k = _k0;
     
     /* Construct object for force optimization */
-    _force_opt = boost::make_shared<ForceOptimization>(_model, _contact_links, true);
+    _force_opt = boost::make_shared<ForceOptimization>(_model, _contact_links, _robot->legs() == 2);
     
     /* Register object inside shared memory */
     _shobj_stiffness = handle->getSharedMemory()->getSharedObject<double>("/desired_stiffness_gain");
