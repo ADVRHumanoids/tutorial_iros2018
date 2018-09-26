@@ -16,6 +16,7 @@ add_executable(joint_map_generator src/generate_joint_map.cpp)
 target_link_libraries(joint_map_generator ${catkin_LIBRARIES})
 
 add_subdirectory(plugins/)
+add_subdirectory(opensot/)
 
 install(TARGETS joint_map_generator joint_map_generator
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

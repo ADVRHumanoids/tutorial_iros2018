@@ -17,8 +17,8 @@ MasterCommunicationInterface:
   framework_name: "ROS"
 
 XBotRTPlugins:
-  plugins: ["HomingExample", "GcompPlugin"]
-  io_plugins: ["GcompIO"]
+  plugins: ["HomingExample","simpleIK","GcompPlugin"]
+  io_plugins: []
   
 NRTPlugins:
   plugins: []
