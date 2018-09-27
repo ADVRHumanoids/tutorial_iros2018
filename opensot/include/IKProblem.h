@@ -18,7 +18,7 @@ public:
     ~IKProblem();
 
     bool solve(Eigen::VectorXd& x);
-    void update(Eigen::VectorXd& x);
+    void update(Eigen::VectorXd& x, bool use_inertia_matrix = false);
     void log(XBot::MatLogger::Ptr& logger);
 
     tasks::velocity::Cartesian::Ptr _arm;
