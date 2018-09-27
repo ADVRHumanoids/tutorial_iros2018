@@ -1,6 +1,7 @@
 #include <cartesian_interface/CartesianInterfaceImpl.h>
 #include <IKProblem.h>
 
+
 namespace XBot { namespace Cartesian {
    
     class SimpleIk : public CartesianInterfaceImpl {
@@ -13,8 +14,6 @@ namespace XBot { namespace Cartesian {
         
         virtual bool setBaseLink(const std::string& ee_name, 
                                  const std::string& new_base_link);
-        
-        
         
     private:
         

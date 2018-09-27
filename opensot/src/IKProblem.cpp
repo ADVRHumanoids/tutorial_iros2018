@@ -5,8 +5,9 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface &model, const double dT)
     Eigen::VectorXd q;
     model.getJointPosition(q);
 
-    _arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, model, "hand_left_palm_link",
-                                                         model.chain("torso").getBaseLinkName());
+    _arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, model, 
+                                                          model.chain("left_arm").getTipLinkName(),
+                                                          model.chain("torso").getBaseLinkName());
     _posture = boost::make_shared<tasks::velocity::Postural>(q);
 
     Eigen::VectorXd qmax, qmin;
