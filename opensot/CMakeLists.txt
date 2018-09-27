@@ -25,6 +25,8 @@ else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
+add_compile_options("-fPIC")
+
 # Add cmake dir and include custom macros
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(MacroYCMInstallLibrary)
@@ -48,7 +50,7 @@ include_directories(include/
 add_library(${PROJECT_NAME} SHARED
     src/simpleIK_plugin.cpp
 )
-add_library(IKProblem SHARED
+add_library(IKProblem STATIC
     src/IKProblem.cpp
 )
 
