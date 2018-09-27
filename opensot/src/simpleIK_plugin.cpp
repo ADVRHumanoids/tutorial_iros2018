@@ -28,7 +28,7 @@ bool simpleIK::init_control_plugin(XBot::Handle::Ptr handle)
     _logger->createVectorVariable("qrefdot", _robot->getJointNum(), 1, 10000);
 
     double dt = 0.001;
-    _opensot = boost::make_shared<OpenSoT::IKProblem>(_robot->model(), dt);
+    _opensot = boost::make_shared<OpenSoT::IKProblem>(std::shared_ptr<XBot::ModelInterface>(&(_robot->model())), dt);
 
     return true;
 }

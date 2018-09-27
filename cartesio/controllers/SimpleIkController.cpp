@@ -4,7 +4,7 @@
 XBot::Cartesian::SimpleIk::SimpleIk(XBot::ModelInterface::Ptr model): 
     CartesianInterfaceImpl(model, get_task_list(*model))
 {
-    _opensot = boost::make_shared<OpenSoT::IKProblem>(*model, 0.01);
+    _opensot = boost::make_shared<OpenSoT::IKProblem>(model, 0.01);
 }
 
 bool XBot::Cartesian::SimpleIk::update(double time, double period)

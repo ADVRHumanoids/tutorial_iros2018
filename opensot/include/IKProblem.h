@@ -14,7 +14,7 @@ class IKProblem{
 public:
     typedef boost::shared_ptr<IKProblem> Ptr;
 
-    IKProblem(XBot::ModelInterface& model, const double dT);
+    IKProblem(XBot::ModelInterface::Ptr model, const double dT);
     ~IKProblem();
 
     bool solve(Eigen::VectorXd& x);
@@ -31,6 +31,10 @@ private:
     AutoStack::Ptr _ik_problem;
 
     solvers::iHQP::Ptr _solver;
+
+    Eigen::MatrixXd M;
+
+    XBot::ModelInterface::Ptr _model;
 
 };
 
