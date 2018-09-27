@@ -13,8 +13,11 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT)
     _arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, *model,
                                                           _model->chain("left_arm").getTipLinkName(),
                                                           _model->chain("torso").getBaseLinkName());
+    _arm->setLambda(0.01);
+
     _posture = boost::make_shared<tasks::velocity::Postural>(q);
     _posture->setWeight(M);
+    _posture->setLambda(0.01);
 
     Eigen::VectorXd qmax, qmin;
     model->getJointLimits(qmin, qmax);
@@ -40,9 +43,12 @@ bool OpenSoT::IKProblem::solve(Eigen::VectorXd &x)
     return a;
 }
 
-void OpenSoT::IKProblem::update(Eigen::VectorXd& x)
+void OpenSoT::IKProblem::update(Eigen::VectorXd& x, bool use_inertia_matrix)
 {
-    _model->getInertiaMatrix(M);
+    if(use_inertia_matrix)
+        _model->getInertiaMatrix(M);
+    else
+        M.setIdentity(M.rows(), M.cols());
     _posture->setWeight(M);
     _ik_problem->update(x);
 }

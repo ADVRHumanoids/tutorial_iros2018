@@ -102,10 +102,9 @@ void simpleIK::control_loop(double time, double period)
 
     }
 
-    if(time-_start_time > 2.){
+    if(time-_start_time > 2.)
         _opensot->_arm->setReference(_pose.matrix());
-        _opensot->_arm->setLambda(0.001);
-    }
+
 
 
 
