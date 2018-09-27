@@ -53,7 +53,7 @@ bool XBot::Cartesian::SimpleIk::setBaseLink(const std::string& ee_name, const st
 
 XBot::Cartesian::ProblemDescription XBot::Cartesian::SimpleIk::get_task_list(const ModelInterface& model)
 {
-    auto arm_cartesian = MakeCartesian(model.chain("left_arm").getTipLinkName(),
+    auto arm_cartesian = MakeCartesian("hand_left_palm_link",
                                        model.chain("torso").getBaseLinkName());
     
     auto postural = MakePostural(model.getJointNum());
