@@ -42,6 +42,15 @@
     <group name="right_arm"/>
     <group name="neck"/>
   </group>
+
+  <group name="imu_sensors">
+    <link name="imu_link"/>
+  </group>
+
+  <group name="force_torque_sensors">
+    <joint name="leg_right_6_joint"/>
+    <joint name="leg_left_6_joint"/>
+  </group>
   
   <group_state name="home" group="chains">
 
