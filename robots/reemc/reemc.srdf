@@ -34,22 +34,24 @@
     <group name="right_leg"/>
   </group>
   
-   <group name="chains">
-    <group name="left_leg"/>
-    <group name="right_leg"/>
-    <group name="torso"/>
-    <group name="left_arm"/>
-    <group name="right_arm"/>
-    <group name="neck"/>
-  </group>
+   
 
   <group name="imu_sensors">
     <link name="imu_link"/>
   </group>
 
   <group name="force_torque_sensors">
-    <joint name="leg_right_6_joint"/>
-    <joint name="leg_left_6_joint"/>
+    <joint name="r_leg_ft_joint"/>
+    <joint name="l_leg_ft_joint"/>
+  </group>
+
+<group name="chains">
+    <group name="left_leg"/>
+    <group name="right_leg"/>
+    <group name="torso"/>
+    <group name="left_arm"/>
+    <group name="right_arm"/>
+    <group name="neck"/>
   </group>
   
   <group_state name="home" group="chains">

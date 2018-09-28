@@ -29,3 +29,6 @@ joint_map:
     28: leg_right_6_joint
     29: torso_1_joint
     30: torso_2_joint
+    31: r_leg_ft_joint
+    32: l_leg_ft_joint
+    33: imu_joint
