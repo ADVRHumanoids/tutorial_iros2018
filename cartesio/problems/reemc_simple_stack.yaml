@@ -52,7 +52,7 @@ CoMXY:
     
 BodyPostural:
     type: "Postural"
-    lambda: 0.1
+    lambda: 0.01
 
 HeadPostural:
     type: "Postural"
