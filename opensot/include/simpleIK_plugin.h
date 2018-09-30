@@ -17,6 +17,11 @@ class simpleIK : public XBot::XBotControlPlugin
 
 public:
 
+    /**
+     * @brief init_control_plugin
+     * @param handle
+     * @return
+     */
     virtual bool init_control_plugin(XBot::Handle::Ptr handle);
 
     virtual bool close();

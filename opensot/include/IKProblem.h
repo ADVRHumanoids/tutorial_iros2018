@@ -45,19 +45,45 @@ public:
      */
     void log(XBot::MatLogger::Ptr& logger);
 
+    /**
+     * @brief _left_arm, _right_arm two Cartesian tasks
+     */
     tasks::velocity::Cartesian::Ptr _left_arm, _right_arm;
+
+    /**
+     * @brief _posture a postural task
+     */
     tasks::velocity::Postural::Ptr _posture;
 
 private:
+    /**
+     * @brief _joint_limits constraint
+     */
     constraints::velocity::JointLimits::Ptr _joint_limits;
+
+    /**
+     * @brief _vel_limits joint velocity limits constraint
+     */
     constraints::velocity::VelocityLimits::Ptr _vel_limits;
 
+    /**
+     * @brief _ik_problem the final IK problem
+     */
     AutoStack::Ptr _ik_problem;
 
+    /**
+     * @brief _solver iHQP solver
+     */
     solvers::iHQP::Ptr _solver;
 
+    /**
+     * @brief M to store the inertia matrix
+     */
     Eigen::MatrixXd M;
 
+    /**
+     * @brief _model
+     */
     XBot::ModelInterface::Ptr _model;
 
 };
