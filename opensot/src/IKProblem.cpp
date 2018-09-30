@@ -44,7 +44,8 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT):
     /*
      *  The Math of Tasks
      */
-    _ik_problem = ( (_left_arm + right_arm_pos) / _posture) << _joint_limits << _vel_limits;
+    _ik_problem = ( (_left_arm + right_arm_pos) /
+                    _posture) << _joint_limits << _vel_limits;
 
     // Initialization of the solver, qpOASES is the default back end, 1e8 is the value of the regularization term
     _solver = boost::make_shared<solvers::iHQP>(_ik_problem->getStack(), _ik_problem->getBounds(), 1e8);

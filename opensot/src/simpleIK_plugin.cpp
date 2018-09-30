@@ -27,7 +27,10 @@ bool simpleIK::init_control_plugin(XBot::Handle::Ptr handle)
     _logger->createVectorVariable("qref", _robot->getJointNum(), 1, 10000);
     _logger->createVectorVariable("qrefdot", _robot->getJointNum(), 1, 10000);
 
+    // Control loop time
     double dt = 0.001;
+
+    // Initialization of IKProblem class
     _opensot = boost::make_shared<OpenSoT::IKProblem>(std::shared_ptr<XBot::ModelInterface>(&(_robot->model())), dt);
 
     return true;
@@ -48,8 +51,10 @@ void simpleIK::on_start(double time)
     _start_time = time;
 
     //Eigen::Affine3d _pose;
-    _robot->model().getPose(_opensot->_left_arm->getDistalLink(), _opensot->_left_arm->getBaseLink(), _pose);
+    _robot->model().getPose(_opensot->_right_arm->getDistalLink(), _opensot->_right_arm->getBaseLink(), _pose);
+    _opensot->_right_arm->setReference(_pose.matrix());
 
+    _robot->model().getPose(_opensot->_left_arm->getDistalLink(), _opensot->_left_arm->getBaseLink(), _pose);
     _opensot->_left_arm->setReference(_pose.matrix());
 
     _opensot->_posture->setReference(_q);
@@ -80,32 +85,13 @@ bool simpleIK::close()
 
 void simpleIK::control_loop(double time, double period)
 {
-    /* This function is called on every control loop from when the plugin is start until
-     * it is stopped.
-     * Since this function is called within the real-time loop, you should not perform
-     * operations that are not rt-safe. */
+    static bool _printed = false;
 
-    /* The following code checks if any command was received from the plugin standard port
-     * (e.g. from ROS you can send commands with
-     *         rosservice call /SimpleHoming_cmd "cmd: 'MY_COMMAND_1'"
-     * If any command was received, the code inside the if statement is then executed. */
-
-    if(!current_command.str().empty()){
-
-        if(current_command.str() == "MY_COMMAND_1"){
-            XBot::Logger::info(Logger::Severity::HIGH, "My command 1 executed! \n");
-        }
-
-        if(current_command.str() == "MY_COMMAND_2"){
-            XBot::Logger::info(Logger::Severity::HIGH, "My command 2 executed! \n");
-        }
-
-    }
-
-    if(time-_start_time > 2.)
-        _opensot->_left_arm->setReference(_pose.matrix());
-
-
+    if(time - _start_time > 2.){
+        if(!_printed){
+            XBot::Logger::info("MOVING Left ARM! \n");
+            _printed = true;}
+        _opensot->_left_arm->setReference(_pose.matrix());}
 
 
     /* Model Update*/
