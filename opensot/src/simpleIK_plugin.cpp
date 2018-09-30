@@ -48,9 +48,9 @@ void simpleIK::on_start(double time)
     _start_time = time;
 
     //Eigen::Affine3d _pose;
-    _robot->model().getPose(_opensot->_arm->getDistalLink(), _opensot->_arm->getBaseLink(), _pose);
+    _robot->model().getPose(_opensot->_left_arm->getDistalLink(), _opensot->_left_arm->getBaseLink(), _pose);
 
-    _opensot->_arm->setReference(_pose.matrix());
+    _opensot->_left_arm->setReference(_pose.matrix());
 
     _opensot->_posture->setReference(_q);
 
@@ -103,7 +103,7 @@ void simpleIK::control_loop(double time, double period)
     }
 
     if(time-_start_time > 2.)
-        _opensot->_arm->setReference(_pose.matrix());
+        _opensot->_left_arm->setReference(_pose.matrix());
 
 
 

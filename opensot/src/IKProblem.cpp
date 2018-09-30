@@ -1,22 +1,27 @@
 #include <IKProblem.h>
 
-OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT)
+OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT):
+    _model(model)
 {
     Eigen::VectorXd q;
-
-    _model = model;
-
     _model->getJointPosition(q);
 
-    _model->getInertiaMatrix(M);
 
-    _arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, *model,
+    _left_arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, *model,
                                                           _model->chain("left_arm").getTipLinkName(),
                                                           _model->chain("torso").getBaseLinkName());
-    _arm->setLambda(0.01);
+    _left_arm->setLambda(0.1);
+    
+    _right_arm = boost::make_shared<tasks::velocity::Cartesian>("arm", q, *model,
+                                                          _model->chain("right_arm").getTipLinkName(),
+                                                          _model->chain("torso").getBaseLinkName());
+    _right_arm->setLambda(0.1);
+    
+    std::list<uint> pos_idx = {0, 1, 2};
+    auto right_arm_pos = _right_arm % pos_idx;
 
     _posture = boost::make_shared<tasks::velocity::Postural>(q);
-    _posture->setWeight(M);
+    _model->getInertiaMatrix(M);
     _posture->setLambda(0.01);
 
     Eigen::VectorXd qmax, qmin;
@@ -25,7 +30,7 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT)
 
     _vel_limits = boost::make_shared<constraints::velocity::VelocityLimits>(M_PI, dT, q.size());
 
-    _ik_problem = (_arm/_posture)<<_joint_limits<<_vel_limits;
+    _ik_problem = ( (_left_arm + right_arm_pos) / _posture) << _joint_limits << _vel_limits;
 
     _solver = boost::make_shared<solvers::iHQP>(_ik_problem->getStack(), _ik_problem->getBounds(), 1e8);
 }
@@ -49,6 +54,7 @@ void OpenSoT::IKProblem::update(Eigen::VectorXd& x, bool use_inertia_matrix)
         _model->getInertiaMatrix(M);
     else
         M.setIdentity(M.rows(), M.cols());
+    
     _posture->setWeight(M);
     _ik_problem->update(x);
 }

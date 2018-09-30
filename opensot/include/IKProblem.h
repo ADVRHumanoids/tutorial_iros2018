@@ -21,7 +21,7 @@ public:
     void update(Eigen::VectorXd& x, bool use_inertia_matrix = false);
     void log(XBot::MatLogger::Ptr& logger);
 
-    tasks::velocity::Cartesian::Ptr _arm;
+    tasks::velocity::Cartesian::Ptr _left_arm, _right_arm;
     tasks::velocity::Postural::Ptr _posture;
 
 private:

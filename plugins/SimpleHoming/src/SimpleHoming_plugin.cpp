@@ -109,7 +109,7 @@ void SimpleHoming::control_loop(double time, double period)
     const double MAX_SPEED = 1.0; // rad / s
     
 
-    XBot::Utils::FifthOrderTrajectory(_start_time, _q0,  // [in] provide start time and posture
+    XBot::Utils::FifthOrderTrajectory(_start_time, _q0,    // [in] provide start time and posture
                                         _qhome,            // [in] target posture
                                         MAX_SPEED,         // [in] max joint speed
                                         time,              // [in] current time

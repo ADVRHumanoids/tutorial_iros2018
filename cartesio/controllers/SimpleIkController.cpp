@@ -14,9 +14,14 @@ bool XBot::Cartesian::SimpleIk::update(double time, double period)
     _model->getJointPosition(_q);
     
     Eigen::Affine3d Tref;
-    if(getPoseReference(_opensot->_arm->getDistalLink(), Tref))
+    if(getPoseReference(_opensot->_left_arm->getDistalLink(), Tref))
     {
-        _opensot->_arm->setReference(Tref.matrix());
+        _opensot->_left_arm->setReference(Tref.matrix());
+    }
+    
+    if(getPoseReference(_opensot->_right_arm->getDistalLink(), Tref))
+    {
+        _opensot->_right_arm->setReference(Tref.matrix());
     }
     
     if(getReferencePosture(_posture_ref))
@@ -24,7 +29,7 @@ bool XBot::Cartesian::SimpleIk::update(double time, double period)
         _opensot->_posture->setReference(_posture_ref);
     }
     
-    _opensot->update(_q);
+    _opensot->update(_q, false);
     if(!_opensot->solve(_dq))
     {
         return false;
@@ -42,7 +47,12 @@ bool XBot::Cartesian::SimpleIk::setBaseLink(const std::string& ee_name, const st
         return false;
     }
     
-    if(_opensot->_arm->getDistalLink() == ee_name && _opensot->_arm->setBaseLink(new_base_link))
+    if(_opensot->_left_arm->getDistalLink() == ee_name && _opensot->_left_arm->setBaseLink(new_base_link))
+    {
+        return true;
+    }
+    
+    if(_opensot->_right_arm->getDistalLink() == ee_name && _opensot->_right_arm->setBaseLink(new_base_link))
     {
         return true;
     }
@@ -53,12 +63,15 @@ bool XBot::Cartesian::SimpleIk::setBaseLink(const std::string& ee_name, const st
 
 XBot::Cartesian::ProblemDescription XBot::Cartesian::SimpleIk::get_task_list(const ModelInterface& model)
 {
-    auto arm_cartesian = MakeCartesian(model.chain("left_arm").getTipLinkName(),
+    auto l_arm_cartesian = MakeCartesian(model.chain("left_arm").getTipLinkName(),
+                                       model.chain("torso").getBaseLinkName());
+    
+    auto r_arm_cartesian = MakeCartesian(model.chain("right_arm").getTipLinkName(),
                                        model.chain("torso").getBaseLinkName());
     
     auto postural = MakePostural(model.getJointNum());
     
-    XBot::Cartesian::ProblemDescription desc(arm_cartesian + postural);
+    XBot::Cartesian::ProblemDescription desc(l_arm_cartesian + r_arm_cartesian + postural);
     
     return desc;
 }
