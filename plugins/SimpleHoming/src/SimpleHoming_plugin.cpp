@@ -47,9 +47,9 @@ bool SimpleHoming::init_control_plugin(XBot::Handle::Ptr handle)
      * so that logs do not overwrite each other. Preallocate 10000 samples per variable. */
 
     _logger = XBot::MatLogger::getLogger("/tmp/SimpleHoming_log");
-    _logger->createScalarVariable("time", 1, 10000);
-    _logger->createVectorVariable("qref", _robot->getJointNum(), 1, 10000);
-    _logger->createVectorVariable("qrefdot", _robot->getJointNum(), 1, 10000);
+    _logger->createScalarVariable("time", 1, 60000);
+    _logger->createVectorVariable("qref", _robot->getJointNum(), 1, 60000);
+    _logger->createVectorVariable("qrefdot", _robot->getJointNum(), 1, 60000);
 
     return true;
 

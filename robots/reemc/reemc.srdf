@@ -1,9 +1,6 @@
 <?xml version="1.0" ?>
 
 <robot name="reemc" xmlns:xacro="http://ros.org/wiki/xacro">
-  <group name="base">
-    <link name="base_link"/>
-  </group>
 
   <group name="left_leg">
     <chain base_link="base_link" tip_link="left_sole_link"/>

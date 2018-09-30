@@ -17,12 +17,11 @@ MasterCommunicationInterface:
   framework_name: "ROS"
 
 XBotRTPlugins:
-  plugins: ["HomingExample","simpleIK","GcompPlugin"]
+  plugins: ["SimpleHoming", "simpleIK", "GcompPlugin"]
   io_plugins: []
   
 NRTPlugins:
   plugins: []
-  
   
 WebServer:
   enable: "true"
