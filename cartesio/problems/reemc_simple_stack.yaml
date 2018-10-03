@@ -1,11 +1,11 @@
 solver_options:
     regularization: 1e-6
-    back_end: "osqp"
+    back_end: "qpoases"
 
 stack:
-    - ["LFoot", "RFoot", "HeadPostural"]
+    - ["LFoot", "RFoot"]
     - ["CoMXY", "WaistYaw"]
-    - ["LArm", "RArm"]
+    - ["LArm", "RArm", "Gaze"]
     - ["BodyPostural"]
     
 constraints: ["JointLimits", "VelocityLimits"]
@@ -54,9 +54,8 @@ BodyPostural:
     type: "Postural"
     lambda: 0.01
 
-HeadPostural:
-    type: "Postural"
-    indices: [34, 35]
-    lambda: 0.1
+Gaze:
+    type: "Gaze"
+    lambda: 0.01
 
 

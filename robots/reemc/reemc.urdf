@@ -856,7 +856,7 @@
   <gazebo reference="head_2_joint">
     <implicitSpringDamper>1</implicitSpringDamper>
   </gazebo>
-  <link name="head_sonar_03_link">
+  <link name="gaze">
     <inertial>
       <mass value="0.001"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -867,7 +867,7 @@
     <origin rpy="1.57 0.0 0.0" xyz="0.11 -0.195 0.0"/>
     <axis xyz="0 0 1"/>
     <parent link="head_2_link"/>
-    <child link="head_sonar_03_link"/>
+    <child link="gaze"/>
   </joint>
   <!--************************-->
   <!--        SHOULDER        -->

@@ -18,7 +18,7 @@
     <chain base_link="torso_2_link" tip_link="hand_right_palm_link"/>
   </group>
   <group name="neck">
-    <chain base_link="torso_2_link" tip_link="head_sonar_03_link"/>
+    <chain base_link="torso_2_link" tip_link="gaze"/>
   </group>
   
   <group name="arms">
