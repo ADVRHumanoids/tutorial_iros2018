@@ -9,6 +9,7 @@
 #include <OpenSoT/utils/AutoStack.h>
 #include <OpenSoT/solvers/iHQP.h>
 #include <OpenSoT/utils/InverseDynamics.h>
+#include <OpenSoT/constraints/force/FrictionCone.h>
 
 namespace OpenSoT{
 
@@ -61,6 +62,8 @@ public:
 
 private:
     constraints::acceleration::DynamicFeasibility::Ptr _dynamics;
+
+    constraints::force::FrictionCone::Ptr _friction_cones;
 
     constraints::GenericConstraint::Ptr _x_lims;
 
