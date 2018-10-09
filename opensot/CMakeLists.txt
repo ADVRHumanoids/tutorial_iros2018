@@ -42,9 +42,7 @@ if ( ${ENABLE_XENO} )
 endif()
 
 # include
-include_directories(include/
-                    ${XCM_INCLUDE_DIRS}
-                    )
+include_directories(include ${XCM_INCLUDE_DIRS})
 
 # lib
 add_library(${PROJECT_NAME} SHARED
@@ -52,6 +50,13 @@ add_library(${PROJECT_NAME} SHARED
 )
 add_library(IKProblem STATIC
     src/IKProblem.cpp
+)
+
+add_library(simpleID SHARED
+    src/simpleID_plugin.cpp
+)
+add_library(IDProblem STATIC
+    src/IDProblem.cpp
 )
 
 # set Xenomain flags if Xenomai is found
@@ -63,8 +68,14 @@ endif()
 target_link_libraries(IKProblem ${OpenSoT_LIBRARIES} ${XCM_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} IKProblem ${XCM_LIBRARIES})
 
+target_link_libraries(IDProblem ${OpenSoT_LIBRARIES} ${XCM_LIBRARIES})
+target_link_libraries(simpleID IDProblem ${XCM_LIBRARIES})
+
 
 #install
 ycm_library_install(IKProblem 1 0 0)
 ycm_library_install(${PROJECT_NAME} 1 0 0)
+
+ycm_library_install(IDProblem 1 0 0)
+ycm_library_install(simpleID 1 0 0)
 
