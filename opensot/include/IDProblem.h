@@ -49,10 +49,11 @@ public:
     void log(XBot::MatLogger::Ptr& logger);
 
     /**
-     * @brief _left_arm, _right_arm two Cartesian tasks
+     * @brief Cartesian Tasks
      */
     tasks::acceleration::Cartesian::Ptr _left_arm, _right_arm;
     tasks::acceleration::Cartesian::Ptr _left_foot, _right_foot;
+    tasks::acceleration::Cartesian::Ptr _waist;
     tasks::acceleration::CoM::Ptr _com;
 
     /**
@@ -61,10 +62,19 @@ public:
     tasks::acceleration::Postural::Ptr _postural;
 
 private:
+    /**
+     * @brief _dynamics constraint relates the floating base with the contact forces
+     */
     constraints::acceleration::DynamicFeasibility::Ptr _dynamics;
 
+    /**
+     * @brief _friction_cones constraints
+     */
     constraints::force::FrictionCone::Ptr _friction_cones;
 
+    /**
+     * @brief _x_lims some bounds
+     */
     constraints::GenericConstraint::Ptr _x_lims;
 
     /**
@@ -82,8 +92,14 @@ private:
      */
     XBot::ModelInterface::Ptr _model;
 
+    /**
+     * @brief _id inverse dynamics computation & variable helper
+     */
     OpenSoT::utils::InverseDynamics::Ptr _id;
 
+    /**
+     * @brief _x decision variables
+     */
     Eigen::VectorXd _x;
 
 };
