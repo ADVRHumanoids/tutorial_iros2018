@@ -1,0 +1,44 @@
+<launch>
+
+    <param name="robot_description" textfile="$(find tutorial_iros2018)/robots/valkyrie/urdf/valkyrie_sim_arm_mass_sims.urdf"/>
+    <param name="robot_description_semantic" textfile="$(find tutorial_iros2018)/robots/valkyrie/valkyrie_sim_arm_mass_sims.srdf"/>
+    <param name="problem_description" textfile="$(find tutorial_iros2018)/cartesio/problems/valkyrie_simple_stack.yaml"/>
+    
+    <arg name="solver" default="OpenSot"/>
+    <arg name="prefix" default=""/>
+    <arg name="use_xbot_config" default="false"/>
+    <arg name="verbosity" default="0"/>
+    <arg name="rate" default="100.0"/>
+    <arg name="tf_prefix" default="ci"/>
+    <arg name="markers" default="true"/>
+    <arg name="namespace" default=""/> 
+        
+    
+    <node pkg="cartesian_interface" type="ros_server_node" 
+                                    name="ros_server_node" 
+                                    required="true" 
+                                    output="screen" 
+                                    launch-prefix="$(arg prefix)">
+                                    
+        <param name="is_model_floating_base" type="bool" value="true"/>
+        <param name="model_type" value="RBDL"/>
+        <param name="solver" value="$(arg solver)"/>
+        <param name="use_xbot_config" value="$(arg use_xbot_config)"/>
+        <param name="verbosity" value="$(arg verbosity)"/>
+        <param name="rate" value="$(arg rate)"/>
+        <param name="tf_prefix" value="$(arg tf_prefix)"/>
+        
+    </node>
+
+    <node if="$(arg markers)" pkg="cartesian_interface" type="marker_spawner" name="interactive_markers" output="screen">
+        <param name="tf_prefix" value="$(arg tf_prefix)"/>
+    </node>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="true"/>
+        <param name="rate" value="10"/>
+        <remap from="joint_states" to="cartesian/posture/reference"/>
+        <remap from="zeros" to="cartesian/posture/home"/>
+    </node>
+
+</launch>

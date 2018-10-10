@@ -1,0 +1,62 @@
+solver_options:
+    regularization: 1e0
+    back_end: "qpoases"
+
+stack:
+    - ["LFoot", "RFoot"]
+    - ["CoMXY", "WaistYaw"]
+    - ["LArm", "RArm", "Gaze"] #
+    - ["BodyPostural"]
+    
+constraints: ["JointLimits", "VelocityLimits"]
+
+
+################################################
+############### TASK DEFINITIONS ###############
+################################################
+
+LFoot:
+    type: "Cartesian"
+    distal_link: "leftCOP_Frame"
+    base_link: "world"
+
+RFoot:
+    type: "Cartesian"
+    distal_link: "rightCOP_Frame"
+    base_link: "world"
+
+LArm:
+    type: "Cartesian"
+    distal_link: "leftWristRollLink"
+    base_link: "world"
+    lambda: 0.1
+    indices: [0,1,2]
+
+RArm:
+    type: "Cartesian"
+    distal_link: "rightWristRollLink"
+    base_link: "world"
+    lambda: 0.1
+    indices: [0,1,2]
+
+WaistYaw:
+    type: "Cartesian"
+    distal_link: "torso"
+    base_link: "world"
+    lambda: 0.1
+    indices: [5]
+
+CoMXY:
+    type: "Com"
+    lambda: 0.1
+    indices: [0,1]
+    
+BodyPostural:
+    type: "Postural"
+    lambda: 1.0
+
+Gaze:
+    type: "Gaze"
+    lambda: 0.01
+
+

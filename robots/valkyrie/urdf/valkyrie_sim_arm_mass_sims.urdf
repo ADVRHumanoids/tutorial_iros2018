@@ -23,8 +23,8 @@
    </joint>
   <!---->
 
-  <!-- Head Link Simple Collision Meshes -->
-  <link name="head">
+  <!-- gaze Link Simple Collision Meshes -->
+  <link name="gaze">
     <inertial>
       <origin rpy="0 0 0" xyz="-0.075493 3.3383E-05 0.02774"/>
       <mass value="1.41984"/>
@@ -33,7 +33,7 @@
     <!--     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/multisense/head.dae" />
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/multisense/gaze.dae" />
       </geometry>
       <material name="">
         <color rgba="0.9098 0.44314 0.031373 1" />
@@ -51,7 +51,9 @@
         <box size="0.0468 0.12 0.1184"/>
       </geometry>
     </collision>
-  </link>
+  
+
+ </link>
   <link name="hokuyo_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0.032428 0.0004084 -0.0041835"/>
@@ -82,7 +84,7 @@
       </geometry>
     </collision>
   </link>
-  <gazebo reference="head">
+  <gazebo reference="gaze">
     <mu1>0.9</mu1>
     <mu2>0.9</mu2>
   </gazebo>
@@ -90,24 +92,24 @@
     <mu1>0.9</mu1>
     <mu2>0.9</mu2>
   </gazebo>
-  <joint name="hokuyo_joint" type="continuous">
+  <joint name="hokuyo_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.0446 0 0.0880"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="hokuyo_link"/>
-    <axis xyz="1 0 0"/>
-    <dynamics damping="0.01" friction="0"/>
+    <!--axis xyz="1 0 0"/>
+    <dynamics damping="0.01" friction="0"/-->
   </joint>
-  <gazebo reference="hokuyo_joint">
+  <!--gazebo reference="hokuyo_joint">
     <implicitSpringDamper>1</implicitSpringDamper>
-  </gazebo>
+  </gazebo-->
   <!-- Hokuyo Laser -->
-  <joint name="head_hokuyo_joint" type="fixed">
+  <joint name="gaze_hokuyo_joint" type="fixed">
     <axis xyz="0 1 0"/>
     <origin rpy="0 0 0" xyz="0.03 0 0.015"/>
     <parent link="hokuyo_link"/>
-    <child link="head_hokuyo_frame"/>
+    <child link="gaze_hokuyo_frame"/>
   </joint>
-  <link name="head_hokuyo_frame">
+  <link name="gaze_hokuyo_frame">
     <inertial>
       <mass value="1e-5"/>
       <!-- collocate with parent link and remove mass from it -->
@@ -115,8 +117,8 @@
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
   </link>
-  <gazebo reference="head_hokuyo_frame">
-    <sensor name="head_hokuyo_sensor" type="gpu_ray">
+  <gazebo reference="gaze_hokuyo_frame">
+    <sensor name="gaze_hokuyo_sensor" type="gpu_ray">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>40</update_rate>
@@ -146,7 +148,7 @@
       </ray>
       <plugin filename="libgazebo_ros_gpu_laser.so" name="gazebo_ros_head_hokuyo_controller">
         <topicName>/multisense/lidar_scan</topicName>
-        <frameName>head_hokuyo_frame</frameName>
+        <frameName>gaze_hokuyo_frame</frameName>
       </plugin>
     </sensor>
   </gazebo>
@@ -154,7 +156,7 @@
   <joint name="left_camera_frame_joint" type="fixed">
     <!-- optical frame collocated with tilting DOF -->
     <origin xyz="0.0 0.035 -0.002"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="left_camera_frame"/>
   </joint>
   <link name="left_camera_frame">
@@ -244,7 +246,7 @@
   </gazebo>
   <joint name="right_camera_frame_joint" type="fixed">
     <origin xyz="0.0 -0.035 -0.002"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="right_camera_frame"/>
   </joint>
   <link name="right_camera_frame">
@@ -263,7 +265,7 @@
   <link name="right_camera_optical_frame"/>
   <joint name="center_top_led_frame_joint" type="fixed">
     <origin xyz="0.01125 0.0 0.0105"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="center_top_led_frame"/>
   </joint>
   <link name="center_top_led_frame">
@@ -276,7 +278,7 @@
   </link>
   <joint name="center_bottom_led_frame_joint" type="fixed">
     <origin xyz="0.01125 0.0 -0.0155"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="center_bottom_led_frame"/>
   </joint>
   <link name="center_bottom_led_frame">
@@ -287,37 +289,37 @@
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
   </link>
-  <joint name="left_led_frame_joint" type="fixed">
+ <!-- <joint name="left_led_frame_joint" type="fixed">
     <origin rpy="0 -0.15 0.53" xyz="-0.01443 0.07452 0.050346"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="left_led_frame"/>
   </joint>
   <link name="left_led_frame">
     <inertial>
       <mass value="1e-5"/>
-      <!-- collocate with parent link and remove mass from it -->
+
       <origin rpy="0 -0.15 0.53" xyz="-0.089923 0.074553383 0.078086"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
   </link>
   <joint name="right_led_frame_joint" type="fixed">
     <origin rpy="0 -0.15 -0.53" xyz="-0.01443 -0.07452 0.050346"/>
-    <parent link="head"/>
+    <parent link="gaze"/>
     <child link="right_led_frame"/>
   </joint>
   <link name="right_led_frame">
     <inertial>
       <mass value="1e-5"/>
-      <!-- collocate with parent link and remove mass from it -->
+
       <origin rpy="0 -0.15 -0.53" xyz="-0.089923 -0.074486617 0.07908"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
-  </link>
+  </link> -->
   <gazebo>
     <plugin filename="libSRCMultiSenseSLPlugin.so" name="multisense_plugin"/>
   </gazebo>
   <!-- imu link -->
-  <link name="head_imu_link">
+  <link name="gaze_imu_link">
     <inertial>
       <mass value="1e-5"/>
       <!-- collocate with parent link and remove mass from it -->
@@ -331,17 +333,17 @@
       </geometry>
     </visual>
   </link>
-  <joint name="head_imu_joint" type="fixed">
-    <parent link="head"/>
-    <child link="head_imu_link"/>
+  <joint name="gaze_imu_joint" type="fixed">
+    <parent link="gaze"/>
+    <child link="gaze_imu_link"/>
     <!-- putting it at the same z-level as the stereo -->
     <origin rpy="0 0 0" xyz="-0.0475 0.035 0.0"/>
   </joint>
-  <gazebo reference="head_imu_link">
-    <!-- this is expected to be reparented to head with appropriate offset
-         when head_imu_link is reduced by fixed joint reduction -->
+  <gazebo reference="gaze_imu_link">
+    <!-- this is expected to be reparented to gaze with appropriate offset
+         when gaze_imu_link is reduced by fixed joint reduction -->
     <!-- todo: this is working with gazebo 1.4, need to write a unit test -->
-    <sensor name="head_imu_sensor" type="imu">
+    <sensor name="gaze_imu_sensor" type="imu">
       <always_on>1</always_on>
       <update_rate>1000.0</update_rate>
       <imu>
@@ -403,7 +405,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://tutorial_iros2018/robots/valkyrie//meshes/pelvis/pelvis.dae"/>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/pelvis/pelvis.dae"/>
       </geometry>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
     </visual>
@@ -734,6 +736,69 @@
     <provideFeedback>1</provideFeedback>
     <implicitSpringDamper>1</implicitSpringDamper>
   </gazebo>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <link name="rightForearmLink">
+    <inertial>
+      <mass value="2.476"/>
+      <origin rpy="0 0 0" xyz="0.015000 -0.13 0.019564"/>
+      <inertia ixx="0.01175543" ixy="-0.001300853" ixz="-0.000727141" iyy="0.005071567" iyz="-0.001695416" izz="0.011365657"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj5_right.dae"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj5_right.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+
+  <joint name="rightForearmYaw" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="-0.0254 0 0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="rightElbowPitchLink"/>
+    <child link="rightForearmLink"/>
+    <limit effort="26" lower="-2.019" upper="3.14" velocity="5"/>
+    <controller_gains Kd="0.0" Ki="0.0" Kp="1000"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+
+  <link name="rightWristRollLink">
+    <inertial>
+      <mass value="0.14"/>
+      <origin rpy="0 0 0" xyz="0 -0.0 0"/>
+      <inertia ixx="3.0251e-05" ixy="-1.25e-07" ixz="-3.6e-08" iyy="3.772e-05" iyz="0.0" izz="9.395e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj6_right.dae"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj6_right.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+
+  <joint name="rightWristRoll" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.2871 0.0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="rightForearmLink"/>
+    <child link="rightWristRollLink"/>
+    <limit effort="14" lower="-0.625" upper="0.62" velocity="1"/>
+    <controller_gains Kd="0" Ki="0.0" Kp="500"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <link name="leftShoulderPitchLink">
     <inertial>
       <mass value="2.65"/>
@@ -862,6 +927,74 @@
     <provideFeedback>1</provideFeedback>
     <implicitSpringDamper>1</implicitSpringDamper>
   </gazebo>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <link name="leftForearmLink">
+    <inertial>
+      <mass value="2.476"/>
+      <origin rpy="0 0 0" xyz="0.015000 0.13 0.019564"/>
+      <inertia ixx="0.01175543" ixy="0.001300853" ixz="-0.000727141" iyy="0.005071567" iyz="0.001695416" izz="0.011365657"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj5_left.dae"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj5_left.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+
+  <joint name="leftForearmYaw" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="-0.0254 0 0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="leftElbowPitchLink"/>
+    <child link="leftForearmLink"/>
+    <limit effort="26" lower="-2.019" upper="3.14" velocity="5"/>
+    <controller_gains Kd="0.0" Ki="0.0" Kp="1000"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+
+
+  <link name="leftWristRollLink">
+    <inertial>
+      <mass value="0.14"/>
+      <origin rpy="0 0 0" xyz="0 0.0 0"/>
+      <inertia ixx="3.0251e-05" ixy="1.25e-07" ixz="3.6e-08" iyy="3.772e-05" iyz="0.0" izz="9.395e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj6_left.dae"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://tutorial_iros2018/robots/valkyrie/meshes/arms/aj6_left.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+
+  <joint name="leftWristRoll" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.2871 0.0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="leftForearmLink"/>
+    <child link="leftWristRollLink"/>
+    <limit effort="14" lower="-0.62" upper="0.625" velocity="1"/>
+    <controller_gains Kd="0" Ki="0.0" Kp="500"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <link name="rightHipYawLink">
     <inertial>
       <mass value="2.39"/>
@@ -1470,13 +1603,13 @@
       </force_torque>
     </sensor>
   </gazebo>
-  <joint name="multisense_head_root_joint" type="fixed">
+  <joint name="multisense_gaze_root_joint" type="fixed">
     <origin rpy="-3.14159 0.130899694 0.0" xyz="0.183585961 0.0 0.075353826"/>
     <axis xyz="0 0 1"/>
     <parent link="upperNeckPitchLink"/>
-    <child link="head"/>
+    <child link="gaze"/>
   </joint>
-  <gazebo reference="multisense_head_root_joint">
+  <gazebo reference="multisense_gaze_root_joint">
     <implicitSpringDamper>1</implicitSpringDamper>
   </gazebo>
   <link name="leftTorsoImu_Frame">

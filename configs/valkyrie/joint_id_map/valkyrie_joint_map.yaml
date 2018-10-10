@@ -1,0 +1,32 @@
+joint_map:
+    1: leftAnklePitch
+    2: leftAnkleRoll
+    3: leftElbowPitch
+    4: leftHipPitch
+    5: leftHipRoll
+    6: leftHipYaw
+    7: leftKneePitch
+    8: leftShoulderPitch
+    9: leftShoulderRoll
+    10: leftShoulderYaw
+    11: lowerNeckPitch
+    12: neckYaw
+    13: rightAnklePitch
+    14: rightAnkleRoll
+    15: rightElbowPitch
+    16: rightHipPitch
+    17: rightHipRoll
+    18: rightHipYaw
+    19: rightKneePitch
+    20: rightShoulderPitch
+    21: rightShoulderRoll
+    22: rightShoulderYaw
+    23: torsoPitch
+    24: torsoRoll
+    25: torsoYaw
+    26: upperNeckPitch
+    27: leftForearmYaw
+    28: rightForearmYaw
+    29: leftWristRoll
+    30: rightWristRoll
+

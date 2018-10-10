@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+
+<robot name="valkyrie" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <group name="left_leg">
+    <chain base_link="base_link" tip_link="leftCOP_Frame"/>
+  </group>
+  <group name="right_leg">
+    <chain base_link="base_link" tip_link="rightCOP_Frame"/>
+  </group>
+  <group name="torso">
+    <chain base_link="base_link" tip_link="torso"/>
+  </group>
+  <group name="left_arm">
+    <chain base_link="torso" tip_link="leftWristRollLink"/>
+  </group>
+  <group name="right_arm">
+    <chain base_link="torso" tip_link="rightWristRollLink"/>
+  </group>
+  <group name="neck">
+    <chain base_link="torso" tip_link="gaze"/> <!--head-->
+  </group>
+  
+  <group name="arms">
+    <group name="left_arm"/>
+    <group name="right_arm"/>
+  </group>
+
+  <group name="legs">
+    <group name="left_leg"/>
+    <group name="right_leg"/>
+  </group>
+  
+
+<!--
+  <group name="imu_sensors">
+    <link name="head_imu_link"/>
+    <link name="pelvisRearImu_Frame"/>
+    <link name="pelvisMiddleImu_Frame"/>
+    <link name="leftTorsoImu_Frame"/>
+    <link name="leftTorsoImu_Offset"/>
+  </group>
+
+    <group name="force_torque_sensors">
+    <joint name="r_leg_ft_joint"/>
+    <joint name="l_leg_ft_joint"/>
+  </group> 
+-->
+
+<group name="chains">
+    <group name="left_leg"/>
+    <group name="right_leg"/>
+    <group name="torso"/>
+    <group name="left_arm"/>
+    <group name="right_arm"/>
+    <group name="neck"/>
+  </group>
+  
+
+  <group_state name="home" group="chains">
+       
+
+        <joint name="leftWristRollLink" value="0.0"/>
+        <joint name="rightWristRollLink" value="0.0"/>
+
+        <joint name="torsoYaw" value="0.0"/>
+        <joint name="torsoPitch" value="0.0"/>
+        <joint name="torsoRoll" value="0.0"/>
+
+        <joint name="lowerNeckPitch" value="0.0"/>
+        <joint name="neckYaw" value="0.0"/>
+        <joint name="upperNeckPitch" value="0.0"/>
+
+        <joint name="rightShoulderPitch" value="0.0"/>
+        <joint name="rightShoulderRoll" value="1.0"/>
+        <joint name="rightShoulderYaw" value="0.5"/>
+
+        <joint name="rightElbowPitch" value="1.5"/>
+
+        <joint name="leftShoulderPitch" value="0.0"/>  
+        <joint name="leftShoulderRoll" value="-1.0"/>
+        <joint name="leftShoulderYaw" value="0.5"/>
+
+        <joint name="leftElbowPitch" value="-1.5"/>
+
+        <joint name="rightHipYaw" value="0.0"/>
+        <joint name="rightHipRoll" value="0.0"/>
+        <joint name="rightHipPitch" value="-0.56"/>
+
+        <joint name="leftHipYaw" value="0.0"/>
+        <joint name="leftHipRoll" value="0.0"/>
+        <joint name="leftHipPitch" value="-0.56"/>
+
+        <joint name="rightKneePitch" value="1.12"/>
+
+        <joint name="rightAnklePitch" value="-0.56"/>
+        <joint name="rightAnkleRoll" value="0.0"/>
+
+        <joint name="leftKneePitch" value="1.12"/>
+
+        <joint name="leftAnklePitch" value="-0.56"/>
+        <joint name="leftAnkleRoll" value="0.0"/>
+
+        
+    </group_state>
+</robot>
