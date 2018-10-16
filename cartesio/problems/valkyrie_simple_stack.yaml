@@ -41,7 +41,7 @@ RArm:
 
 WaistYaw:
     type: "Cartesian"
-    distal_link: "torso"
+    distal_link: "torso_2_link"
     base_link: "world"
     lambda: 0.1
     indices: [5]

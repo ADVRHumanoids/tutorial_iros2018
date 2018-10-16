@@ -53,6 +53,7 @@ public:
      */
     tasks::acceleration::Cartesian::Ptr _left_arm, _right_arm;
     tasks::acceleration::Cartesian::Ptr _left_foot, _right_foot;
+    tasks::acceleration::Cartesian::Ptr _waist;
     tasks::acceleration::CoM::Ptr _com;
 
     /**

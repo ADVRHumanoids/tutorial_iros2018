@@ -6,6 +6,7 @@ using namespace OpenSoT;
 IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _model(model)
 {
+    std::list<unsigned int> id = {3,4,5};
     std::vector<std::string> links_in_contact;
     links_in_contact.push_back("left_sole_link");
     links_in_contact.push_back("right_sole_link");
@@ -19,14 +20,16 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
             "world", _id->getJointsAccelerationAffine());
 
 //   -----adding arm tasks----
-    
     _left_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_arm", *_model, "hand_left_palm_link",
             "world", _id->getJointsAccelerationAffine()); //_model->chain("right_arm").getTipLinkName()
-    _left_arm->setLambda(0.1);  
+//     _left_arm->setLambda(0.1);
     
     _right_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_arm", *_model, "hand_right_palm_link",
             "world", _id->getJointsAccelerationAffine());
-    _right_arm->setLambda(0.1);   
+//     _right_arm->setLambda(0.1);
+
+    _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("waist", *_model, "torso_2_link",
+        "world", _id->getJointsAccelerationAffine());
 //   --------------------------        
     _postural = boost::make_shared<OpenSoT::tasks::acceleration::Postural>(*_model, _id->getJointsAccelerationAffine());
 
@@ -58,7 +61,7 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
                 "acc_wrench_lims", I, xmax, xmin, OpenSoT::constraints::GenericConstraint::Type::BOUND);
 
     _id_problem = ((_left_foot + _right_foot)/
-                   (_com)/
+                   (_com + _waist%id)/
                    (_left_arm + _right_arm)/
                    (_postural))<<_x_lims<<_dynamics<<_friction_cones;
 
