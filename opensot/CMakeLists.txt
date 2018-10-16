@@ -59,6 +59,13 @@ add_library(IDProblem STATIC
     src/IDProblem.cpp
 )
 
+add_library(simpleOS SHARED
+    src/simpleOS_plugin.cpp
+)
+add_library(OSProblem STATIC
+    src/OSProblem.cpp
+)
+
 # set Xenomain flags if Xenomai is found
 if ( Xenomai_FOUND )
     set_xeno_flags(${PROJECT_NAME})
@@ -71,6 +78,9 @@ target_link_libraries(${PROJECT_NAME} IKProblem ${XCM_LIBRARIES})
 target_link_libraries(IDProblem ${OpenSoT_LIBRARIES} ${XCM_LIBRARIES})
 target_link_libraries(simpleID IDProblem ${XCM_LIBRARIES})
 
+target_link_libraries(OSProblem ${OpenSoT_LIBRARIES} ${XCM_LIBRARIES})
+target_link_libraries(simpleOS OSProblem ${XCM_LIBRARIES})
+
 
 #install
 ycm_library_install(IKProblem 1 0 0)
@@ -79,3 +89,5 @@ ycm_library_install(${PROJECT_NAME} 1 0 0)
 ycm_library_install(IDProblem 1 0 0)
 ycm_library_install(simpleID 1 0 0)
 
+ycm_library_install(OSProblem 1 0 0)
+ycm_library_install(simpleOS 1 0 0)

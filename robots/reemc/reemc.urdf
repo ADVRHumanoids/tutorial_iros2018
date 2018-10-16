@@ -34,6 +34,13 @@
     </collision>
   </link>
 
+  <link name="Waist"/>
+  <joint name="waist_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="Waist"/>
+  </joint>
+
+
   <link name="world"/>
   <joint name="reference" type="floating">
     <parent link="world"/>
