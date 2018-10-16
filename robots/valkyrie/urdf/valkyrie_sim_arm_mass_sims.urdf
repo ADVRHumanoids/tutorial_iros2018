@@ -4,11 +4,11 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="valkyrie" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <gazebo>
+<!--  <gazebo>
     <plugin filename="libval_gazebo.so" name="SharedMemorySimInterfacePlugin">
       <robotNamespace>/val</robotNamespace>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
   <!---->
 <link name="base_link"/>
@@ -315,9 +315,9 @@
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
   </link> -->
-  <gazebo>
+<!--  <gazebo>
     <plugin filename="libSRCMultiSenseSLPlugin.so" name="multisense_plugin"/>
-  </gazebo>
+  </gazebo> -->
   <!-- imu link -->
   <link name="gaze_imu_link">
     <inertial>
@@ -2032,8 +2032,8 @@
   <gazebo reference="rightHipRollLink">
     <self_collide>false</self_collide>
   </gazebo>
-  <gazebo>
-    <plugin filename="libgazebo_ros_harness.so" name="harness">
+ <!--   <gazebo>
+  <plugin filename="libgazebo_ros_harness.so" name="harness">
       <joint name="harness_joint" type="prismatic">
         <pose>0 0 0 0 0 0</pose>
         <parent>world</parent>
@@ -2062,11 +2062,10 @@
           </ode>
         </physics>
       </joint>
-      <!-- The joint that raises or lowers the harness -->
+     
       <winch>
         <joint>harness_joint</joint>
-        <!-- PID value for velocity control of the winch. These values
-                   are tuned to work with this box model. -->
+
         <pos_pid>
           <p>1e6</p>
           <i>0</i>
@@ -2086,10 +2085,11 @@
           <cmd_max>1e4</cmd_max>
         </vel_pid>
       </winch>
-      <!-- Joint to detach. Once the joint is detached, it cannot be
-                 reattached. This must be a joint specified within the
-                 body of this plugin. -->
       <detach>harness_joint</detach>
-    </plugin>
+    </plugin> 
+  </gazebo>-->
+
+  <gazebo>
+    <plugin name="xbot_plugin_handler" filename="libGazeboXBotPlugin.so"/>
   </gazebo>
 </robot>

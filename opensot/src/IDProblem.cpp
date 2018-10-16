@@ -18,6 +18,16 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _right_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_leg", *_model, links_in_contact[1],
             "world", _id->getJointsAccelerationAffine());
 
+//   -----adding arm tasks----
+    
+    _left_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_arm", *_model, "hand_left_palm_link",
+            "world", _id->getJointsAccelerationAffine()); //_model->chain("right_arm").getTipLinkName()
+    _left_arm->setLambda(0.1);  
+    
+    _right_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_arm", *_model, "hand_right_palm_link",
+            "world", _id->getJointsAccelerationAffine());
+    _right_arm->setLambda(0.1);   
+//   --------------------------        
     _postural = boost::make_shared<OpenSoT::tasks::acceleration::Postural>(*_model, _id->getJointsAccelerationAffine());
 
     _com = boost::make_shared<OpenSoT::tasks::acceleration::CoM>(*_model, _id->getJointsAccelerationAffine());
@@ -49,6 +59,7 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
 
     _id_problem = ((_left_foot + _right_foot)/
                    (_com)/
+                   (_left_arm + _right_arm)/
                    (_postural))<<_x_lims<<_dynamics<<_friction_cones;
 
     _solver = boost::make_shared<OpenSoT::solvers::iHQP>(_id_problem->getStack(), _id_problem->getBounds(), 1e6);
