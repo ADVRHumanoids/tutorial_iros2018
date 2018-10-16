@@ -29,4 +29,4 @@ WebServer:
   port: "8081"
 
 SimulationOptions:
-  verbose_mode: "false"
+  verbose_mode: "true"

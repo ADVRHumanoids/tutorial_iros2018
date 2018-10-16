@@ -24,25 +24,30 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     //
     _left_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_leg", *_model, links_in_contact[0],
             "world", _id->getJointsAccelerationAffine());
+    _left_foot->setLambda(10.);
 
     _right_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_leg", *_model, links_in_contact[1],
             "world", _id->getJointsAccelerationAffine());
+    _right_foot->setLambda(10.);
 
 //   -----adding arm tasks----
     _left_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_arm", *_model, "hand_left_palm_link",
             "world", _id->getJointsAccelerationAffine()); //_model->chain("right_arm").getTipLinkName()
-//     _left_arm->setLambda(0.1);
+     _left_arm->setLambda(10.);
     
     _right_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_arm", *_model, "hand_right_palm_link",
             "world", _id->getJointsAccelerationAffine());
-//     _right_arm->setLambda(0.1);
+     _right_arm->setLambda(10.);
 
-    _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("waist", *_model, "torso_2_link",
+    _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("waist", *_model, "base_link",
         "world", _id->getJointsAccelerationAffine());
+    _waist->setLambda(10.);
 //   --------------------------        
     _postural = boost::make_shared<OpenSoT::tasks::acceleration::Postural>(*_model, _id->getJointsAccelerationAffine());
+    _postural->setLambda(10.);
 
     _com = boost::make_shared<OpenSoT::tasks::acceleration::CoM>(*_model, _id->getJointsAccelerationAffine());
+    _com->setLambda(10.);
 
 
     //
@@ -74,10 +79,11 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
                 "acc_wrench_lims", I, xmax, xmin, OpenSoT::constraints::GenericConstraint::Type::BOUND);
 
     // Notice that we just control the orientation of the waist
-    std::list<unsigned int> id = {3,4,5};
+    std::list<unsigned int> idw = {2,3,4,5};
+    std::list<unsigned int> idc = {0,1};
     
     _id_problem = ((_left_foot + _right_foot)/
-                   (_com + _waist%id)/
+                   (_com%idc + _waist%idw)/
                    (_left_arm + _right_arm)/
                    (_postural))<<_x_lims<<_dynamics<<_friction_cones;
 
