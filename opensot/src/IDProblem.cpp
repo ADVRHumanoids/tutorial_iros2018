@@ -24,23 +24,25 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     //
     _left_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_leg", *_model, links_in_contact[0],
             "world", _id->getJointsAccelerationAffine());
-    _left_foot->setLambda(10.);
-    _left_foot->setOrientationGain(0.1);
 
     _right_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_leg", *_model, links_in_contact[1],
             "world", _id->getJointsAccelerationAffine());
-    _right_foot->setLambda(10.);
-    _right_foot->setOrientationGain(0.1);
 
-    _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("base_link", *_model, "base_link",
+//   -----adding arm tasks----
+    _left_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_arm", *_model, "hand_left_palm_link",
+            "world", _id->getJointsAccelerationAffine()); //_model->chain("right_arm").getTipLinkName()
+//     _left_arm->setLambda(0.1);
+    
+    _right_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_arm", *_model, "hand_right_palm_link",
             "world", _id->getJointsAccelerationAffine());
-    _waist->setOrientationGain(0.1);
+//     _right_arm->setLambda(0.1);
 
+    _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("waist", *_model, "torso_2_link",
+        "world", _id->getJointsAccelerationAffine());
+//   --------------------------        
     _postural = boost::make_shared<OpenSoT::tasks::acceleration::Postural>(*_model, _id->getJointsAccelerationAffine());
-    _postural->setLambda(10.);
 
     _com = boost::make_shared<OpenSoT::tasks::acceleration::CoM>(*_model, _id->getJointsAccelerationAffine());
-    _com->setLambda(10.);
 
 
     //
@@ -54,6 +56,7 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
         mus.push_back(std::pair<std::string, double>(links_in_contact[i], 0.3));
     _friction_cones = boost::make_shared<OpenSoT::constraints::force::FrictionCone>(_id->getContactsWrenchAffine(),*_model,mus);
 
+    /// HERE WE SET SOME BOUNDS
     OpenSoT::AffineHelper I = OpenSoT::AffineHelper::Identity(_id->getSerializer()->getSize());
     Eigen::VectorXd xmax = 20.*Eigen::VectorXd::Ones(_id->getSerializer()->getSize());
     xmax[_model->getJointNum()] = xmax[_model->getJointNum()+6] = 1000;
@@ -70,18 +73,16 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _x_lims = boost::make_shared<OpenSoT::constraints::GenericConstraint>(
                 "acc_wrench_lims", I, xmax, xmin, OpenSoT::constraints::GenericConstraint::Type::BOUND);
 
-    // Notice that we just control the ROLL of the waist
-    std::list<unsigned int> id;
-    id.push_back(3);
-
+    // Notice that we just control the orientation of the waist
+    std::list<unsigned int> id = {3,4,5};
+    
     _id_problem = ((_left_foot + _right_foot)/
                    (_com + _waist%id)/
+                   (_left_arm + _right_arm)/
                    (_postural))<<_x_lims<<_dynamics<<_friction_cones;
 
-    // Solver is instantiated
     _solver = boost::make_shared<OpenSoT::solvers::iHQP>(_id_problem->getStack(), _id_problem->getBounds(), 1e6);
 
-    // x contains all the variables together (qddot and contacts)
     _x.setZero(_id->getSerializer()->getSize());
 }
 
@@ -95,8 +96,6 @@ bool IDProblem::solve(Eigen::VectorXd& tau)
     bool a = _solver->solve(_x);
     if(!a)
         return false;
-    // After the computation of joint acceleration and contact forces, the computedTorque method computes the
-    // torques taking into account the robot dynamics and the contacts
     a = _id->computedTorque(_x, tau);
     return a;
 }

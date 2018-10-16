@@ -49,7 +49,7 @@ public:
     void log(XBot::MatLogger::Ptr& logger);
 
     /**
-     * @brief Cartesian Tasks
+     * @brief _left_arm, _right_arm two Cartesian tasks
      */
     tasks::acceleration::Cartesian::Ptr _left_arm, _right_arm;
     tasks::acceleration::Cartesian::Ptr _left_foot, _right_foot;

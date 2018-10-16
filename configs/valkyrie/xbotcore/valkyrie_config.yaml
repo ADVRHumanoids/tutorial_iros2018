@@ -1,0 +1,50 @@
+RobotName: "valkyrie"
+
+GazeboXBotPlugin:
+  control_rate: 0.001
+  gains:
+    leftAnklePitch: {p: 1000, d: 10}
+    leftAnkleRoll: {p: 1000, d: 10}
+    leftElbowPitch: {p: 1000, d: 10}
+    leftHipPitch: {p: 1000, d: 10}
+    leftHipRoll: {p: 1000, d: 10}
+    leftHipYaw: {p: 1000, d: 10}
+    leftKneePitch: {p: 1000, d: 10}
+    leftShoulderPitch: {p: 1000, d: 10}
+    leftShoulderRoll: {p: 1000, d: 10}
+    leftShoulderYaw: {p: 1000, d: 10}
+    lowerNeckPitch: {p: 1000, d: 10}
+    neckYaw: {p: 1000, d: 10}
+    rightAnklePitch: {p: 1000, d: 10}
+    rightAnkleRoll: {p: 1000, d: 10}
+    rightElbowPitch: {p: 1000, d: 10}
+    rightHipPitch: {p: 1000, d: 10}
+    rightHipRoll: {p: 1000, d: 10}
+    rightHipYaw: {p: 1000, d: 10}
+    rightKneePitch: {p: 1000, d: 10}
+    rightShoulderPitch: {p: 1000, d: 10}
+    rightShoulderRoll: {p: 1000, d: 10}
+    rightShoulderYaw: {p: 1000, d: 10}
+    torsoPitch: {p: 1000, d: 10}
+    torsoRoll: {p: 1000, d: 10}
+    torsoYaw: {p: 1000, d: 10}
+    upperNeckPitch: {p: 1000, d: 10}
+    leftForearmYaw: {p: 1000, d: 10}
+    rightForearmYaw: {p: 1000, d: 10}
+    leftWristRoll: {p: 1000, d: 10}
+    rightWristRoll: {p: 1000, d: 10}
+    
+
+HALInterface:
+  lib_file: "libXBotEcat"
+  lib_name: "ETHERCAT"
+  IJoint: "libXBotEcat_Joint"
+  IEndEffectors:
+   - [[19,29] , "libXBotEcat_SoftHand"]
+  ISensors:
+   - [[18,28,147,157], "libXBotEcat_FT"]
+   - [[91], "libXBotEcat_IMU"]
+  
+
+  
+##### OTHER R-HAL SPECIFIC DATA
