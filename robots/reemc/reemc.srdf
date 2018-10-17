@@ -55,16 +55,16 @@
 
         <joint name="leg_right_1_joint" value="0.0"/>
         <joint name="leg_right_2_joint" value="0.0"/>
-        <joint name="leg_right_3_joint" value="-0.3"/>
-        <joint name="leg_right_4_joint" value="0.6"/>
-        <joint name="leg_right_5_joint" value="-0.3"/>
+        <joint name="leg_right_3_joint" value="-0.6"/>
+        <joint name="leg_right_4_joint" value="1.2"/>
+        <joint name="leg_right_5_joint" value="-0.6"/>
         <joint name="leg_right_6_joint" value="0.0"/>
 
         <joint name="leg_left_1_joint" value="0.0"/>
         <joint name="leg_left_2_joint" value="0.0"/>
-        <joint name="leg_left_3_joint" value="-0.3"/>
-        <joint name="leg_left_4_joint" value="0.6"/>
-        <joint name="leg_left_5_joint" value="-0.3"/>
+        <joint name="leg_left_3_joint" value="-0.6"/>
+        <joint name="leg_left_4_joint" value="1.2"/>
+        <joint name="leg_left_5_joint" value="-0.6"/>
         <joint name="leg_left_6_joint" value="0.0"/>  
 
         <joint name="torso_1_joint" value="0.0"/>

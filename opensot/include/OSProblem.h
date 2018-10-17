@@ -32,6 +32,8 @@ public:
 
     OpenSoT::utils::ForceOptimization::Ptr _forza_giusta;
 
+    Eigen::MatrixXd LFoot_ref, RFoot_ref, base_link_ref, base_link_0;
+
 private:
     AutoStack::Ptr _os_problem;
 
