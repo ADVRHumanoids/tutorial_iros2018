@@ -90,6 +90,8 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _solver = boost::make_shared<OpenSoT::solvers::iHQP>(_id_problem->getStack(), _id_problem->getBounds(), 1e6);
 
     _x.setZero(_id->getSerializer()->getSize());
+
+    _qddot.setZero(_model->getJointNum());
 }
 
 void IDProblem::update()
@@ -102,7 +104,7 @@ bool IDProblem::solve(Eigen::VectorXd& tau)
     bool a = _solver->solve(_x);
     if(!a)
         return false;
-    a = _id->computedTorque(_x, tau);
+    a = _id->computedTorque(_x, tau, _qddot);
     return a;
 }
 

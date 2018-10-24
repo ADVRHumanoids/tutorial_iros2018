@@ -102,6 +102,8 @@ private:
      */
     Eigen::VectorXd _x;
 
+    Eigen::VectorXd _qddot;
+
 };
 
 }
