@@ -25,22 +25,33 @@ namespace XBotPlugin{
         _sh_fb_rot.set(Eigen::Quaterniond::Identity());
         _sh_fb_vel.set(Eigen::Vector6d::Zero());
 
+
         return true;
 
     }
 
     void simpleOS::control_loop(double time, double period)
     {
-
+        /* Check if robot is touching the ground */
+        if(foot_in_contact((*legs_ft.begin()).second, 100 ,0) && foot_in_contact((*(++legs_ft.begin())).second, 100, 0))
+        {
+            _on_the_ground = true;
+        }
+        else
+        {
+            _on_the_ground = false;
+        }
 
         /* Robot feedback*/
         sense();
 
+
+
         /* id update */
-        opensot->update();
+        opensot->update(_on_the_ground);
 
         /* solve */
-        if(!opensot->solve(_tau))
+        if(!opensot->solve(_tau, _on_the_ground))
             XBot::Logger::error("OpenSoT can not solve!");
 
         _logger->add("time", time);
@@ -48,6 +59,7 @@ namespace XBotPlugin{
         _logger->add("dq", _qdot);
         _logger->add("floating_base_pose", _floating_base_pose.matrix());
         _logger->add("floating_base_twist", _sh_fb_vel.get());
+        _logger->add("on_the_ground", _on_the_ground);
         opensot->log(_logger);
 
 
@@ -84,6 +96,7 @@ namespace XBotPlugin{
 
         _robot->model().getJointPosition(_q);
         _robot->model().getJointVelocity(_qdot);
+        legs_ft = _robot->model().getForceTorque();
     }
 
     void simpleOS::on_stop(double time)
@@ -92,6 +105,8 @@ namespace XBotPlugin{
          * is sent over the plugin switch port (e.g. 'rosservice call /SimpleHoming_switch false').
          * Since this function is called within the real-time loop, you should not perform
          * operations that are not rt-safe. */
+
+        _logger->flush();
     }
 
     bool simpleOS::close()
@@ -103,6 +118,14 @@ namespace XBotPlugin{
         _logger->flush();
 
         return true;
+    }
+
+    bool simpleOS::foot_in_contact(XBot::ForceTorqueSensor::ConstPtr foot_ft, const double threshold, const unsigned int axis)
+    {
+        Eigen::Vector3d f;
+        foot_ft->getForce(f);
+        _logger->add(foot_ft->getSensorName(), f);
+        return std::sqrt(f[axis]*f[axis]) >= threshold;
     }
 
 }

@@ -40,6 +40,8 @@ public:
 
     void sense();
 
+    bool foot_in_contact(XBot::ForceTorqueSensor::ConstPtr foot_ft, const double threshold, const unsigned int axis = 2);
+
 protected:
     /**
      * @brief control_loop is the actual loop, RT-safe code needs to be implemented here
@@ -65,6 +67,10 @@ private:
     XBot::SharedObject<Eigen::Quaterniond> _sh_fb_rot;
     XBot::SharedObject<Eigen::Vector6d> _sh_fb_vel;
     Eigen::Affine3d _floating_base_pose;
+
+    std::map< std::string, XBot::ForceTorqueSensor::ConstPtr > legs_ft;
+
+    bool _on_the_ground;
 
 };
 

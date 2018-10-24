@@ -17,9 +17,9 @@ public:
     OSProblem(XBot::ModelInterface::Ptr model, const double dT);
     ~OSProblem();
 
-    bool solve(Eigen::VectorXd& x);
+    bool solve(Eigen::VectorXd& x, const bool robot_on_ground);
 
-    void update();
+    void update(const bool robot_on_ground);
 
     void log(XBot::MatLogger::Ptr& logger);
 
@@ -32,7 +32,7 @@ public:
 
     OpenSoT::utils::ForceOptimization::Ptr _forza_giusta;
 
-    Eigen::MatrixXd LFoot_ref, RFoot_ref, base_link_ref, base_link_0;
+    Eigen::MatrixXd LFoot_ref, RFoot_ref;
 
 private:
     AutoStack::Ptr _os_problem;
