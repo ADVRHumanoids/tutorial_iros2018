@@ -1,6 +1,4 @@
 #include <SimpleIkController.h>
-#include <cartesian_interface/problem/Cartesian.h>
-#include <cartesian_interface/problem/Postural.h>
 
 
 XBot::Cartesian::SimpleIk::SimpleIk(XBot::ModelInterface::Ptr model): 
