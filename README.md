@@ -28,6 +28,8 @@ The XBotControl tutorial tries to cover different components of the framework: y
 
 In each of the folder of the tutorial you will find a Jupiter notebook (.ipynb) with the instructions and insights related to the specific section.
 
+Here it is how to install Jupyter Notebook on your pc: http://jupyter.org/install
+
 Here it is the lists of the sections and where you will an answer to a set of possible questions:
 
 - How do I control my robot using XBotControl -> **robots** folder and **configs** folder
