@@ -5,7 +5,7 @@ IROS 2018 Software Tutorial for XBotControl: refer to https://github.com/ADVRHum
 
 First of all you should follow the instruction here: https://github.com/ADVRHumanoids/XBotControl#install to install the latest version of XBotControl on your machine.
 
-After this, you should clone and build the tutorial: there are several options to do it, but probably the easiest is using the catkin build tool from ROS.
+After this, you should clone and build the tutorial: there are several options to do it (e.g. superbuild - https://github.com/ADVRHumanoids/advr-superbuild), but probably the easiest is using the catkin build tool from ROS.
 
 ```
 mkdir -p ~/src/catkin_xbot_tutorial_ws/src
@@ -21,7 +21,11 @@ Once you are done with the compilation, we should source the setup.bash of the c
 ```
 . ~/src/catkin_xbot_tutorial_ws/devel/setup.bash
 ```
+If you are not using the superbuild and you want to use the config file inside the tutorial workspace, you should also export the XBOT_ROOT variable based on where your workspace is:
 
+```
+export XBOT_ROOT=~/src/catkin_xbot_tutorial_ws/src
+```
 ## How to follow the tutorial?
 
 The XBotControl tutorial tries to cover different components of the framework: you can follow it based on what are your need.
