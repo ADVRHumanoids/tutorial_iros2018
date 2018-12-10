@@ -11,7 +11,7 @@ After this, you should clone and build the tutorial: there are several options t
 mkdir -p ~/src/catkin_xbot_tutorial_ws/src
 cd ~/src/catkin_xbot_tutorial_ws/src
 catkin_init_workspace
-git clone https://github.com/ADVRHumanoids/tutorial_iros2018.git -b v1.0.0
+git clone https://github.com/ADVRHumanoids/tutorial_iros2018.git
 cd ..
 catkin_make
 ```
@@ -39,4 +39,4 @@ Here it is the lists of the sections and where you will an answer to a set of po
 
 ## Notes
 
-Currently the master branch of this repo should not be used with the binary release v1.0.0 or v1.0.1
+Currently the master branch of this repo should not be used with the binary release v1.0.0: please refer to branch v1.0.0 for this.
