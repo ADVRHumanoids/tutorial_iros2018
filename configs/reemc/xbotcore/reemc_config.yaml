@@ -34,16 +34,3 @@ GazeboXBotPlugin:
     torso_1_joint: {p: 1000, d: 10}
     torso_2_joint: {p: 1000, d: 10}
 
-HALInterface:
-  lib_file: "libXBotEcat"
-  lib_name: "ETHERCAT"
-  IJoint: "libXBotEcat_Joint"
-  IEndEffectors:
-   - [[19,29] , "libXBotEcat_SoftHand"]
-  ISensors:
-   - [[18,28,147,157], "libXBotEcat_FT"]
-   - [[91], "libXBotEcat_IMU"]
-  
-
-  
-##### OTHER R-HAL SPECIFIC DATA

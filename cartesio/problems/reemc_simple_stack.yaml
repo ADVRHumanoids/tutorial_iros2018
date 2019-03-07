@@ -1,20 +1,26 @@
 solver_options:
-    regularization: 1e-6
+    regularization: 1e-3
     back_end: "qpoases"
 
 stack:
     - ["LFoot", "RFoot"]
-    - ["CoMXY", "WaistYaw"]
-    - ["LArm", "RArm", "Gaze"]
+    - ["Waist"]
+    #- ["LArm", "RArm"]
+    - ["AngularMomentum", "CoM"]
     - ["BodyPostural"]
     
-constraints: ["JointLimits", "VelocityLimits"]
+#constraints: ["JointLimits", "VelocityLimits"]
+constraints: ["JointLimits"]
 
 
 ################################################
 ############### TASK DEFINITIONS ###############
 ################################################
 
+AngularMomentum:
+    type: "AngularMomentum"
+    min_rate: true	
+    
 LFoot:
     type: "Cartesian"
     distal_link: "left_sole_link"
@@ -37,22 +43,21 @@ RArm:
     base_link: "world"
     lambda: 0.1
 
-WaistYaw:
+Waist:
     type: "Cartesian"
     distal_link: "torso_2_link"
     base_link: "world"
     lambda: 0.1
-    indices: [5]
-
-
-CoMXY:
+    indices: [3,4,5]
+    
+CoM:
     type: "Com"
     lambda: 0.1
-    indices: [0,1]
     
 BodyPostural:
     type: "Postural"
-    lambda: 0.01
+    lambda: 0.1
+    use_inertia: false
 
 Gaze:
     type: "Gaze"

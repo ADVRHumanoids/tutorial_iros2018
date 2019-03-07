@@ -24,11 +24,11 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     //
     _left_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_leg", *_model, links_in_contact[0],
             "world", _id->getJointsAccelerationAffine());
-    _left_foot->setLambda(10.);
+    _left_foot->setLambda(1.);
 
     _right_foot = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("right_leg", *_model, links_in_contact[1],
             "world", _id->getJointsAccelerationAffine());
-    _right_foot->setLambda(10.);
+    _right_foot->setLambda(1.);
 
 //   -----adding arm tasks----
     _left_arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("left_arm", *_model, "hand_left_palm_link",
@@ -41,13 +41,13 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
 
     _waist = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("waist", *_model, "base_link",
         "world", _id->getJointsAccelerationAffine());
-    _waist->setLambda(10.);
+    _waist->setLambda(1.);
 //   --------------------------        
     _postural = boost::make_shared<OpenSoT::tasks::acceleration::Postural>(*_model, _id->getJointsAccelerationAffine());
-    _postural->setLambda(10.);
+    _postural->setLambda(1.);
 
     _com = boost::make_shared<OpenSoT::tasks::acceleration::CoM>(*_model, _id->getJointsAccelerationAffine());
-    _com->setLambda(10.);
+    _com->setLambda(1.);
 
 
     //
