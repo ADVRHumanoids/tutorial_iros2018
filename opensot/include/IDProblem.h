@@ -51,8 +51,8 @@ public:
     /**
      * @brief _left_arm, _right_arm two Cartesian tasks
      */
-    tasks::acceleration::Cartesian::Ptr _left_arm, _right_arm;
-    tasks::acceleration::Cartesian::Ptr _left_foot, _right_foot;
+    tasks::acceleration::Cartesian::Ptr _arm;
+    tasks::acceleration::Cartesian::Ptr _lh_foot, _rh_foot, _lf_foot, _rf_foot;
     tasks::acceleration::Cartesian::Ptr _waist;
     tasks::acceleration::CoM::Ptr _com;
 
