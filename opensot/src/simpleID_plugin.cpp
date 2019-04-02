@@ -47,6 +47,7 @@ namespace XBotPlugin{
         _logger->add("dq", _qdot);
         _logger->add("floating_base_pose", _floating_base_pose.matrix());
         _logger->add("floating_base_twist", _sh_fb_vel.get());
+        _logger->add("tau", _tau);
         opensot->log(_logger);
 
 
