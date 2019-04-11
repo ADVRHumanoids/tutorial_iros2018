@@ -70,7 +70,7 @@ private:
     /**
      * @brief _friction_cones constraints
      */
-    constraints::force::FrictionCone::Ptr _friction_cones;
+    constraints::force::FrictionCones::Ptr _friction_cones;
 
     /**
      * @brief _x_lims some bounds
