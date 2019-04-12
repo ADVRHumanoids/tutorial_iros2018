@@ -1,10 +1,10 @@
 XBotCore:
-  config_path: "tutorial_iros2018/configs/reemc/xbotcore/reemc_config.yaml"
+  config_path: "external/tutorial_iros2018/configs/reemc/xbotcore/reemc_config.yaml"
 
 XBotInterface:
-  urdf_path: "tutorial_iros2018/robots/reemc/reemc.urdf"
-  srdf_path: "tutorial_iros2018/robots/reemc/reemc.srdf"
-  joint_map_path: "tutorial_iros2018/configs/reemc/joint_id_map/reemc_joint_map.yaml"
+  urdf_path: "external/tutorial_iros2018/robots/reemc/reemc.urdf"
+  srdf_path: "external/tutorial_iros2018/robots/reemc/reemc.srdf"
+  joint_map_path: "external/tutorial_iros2018/configs/reemc/joint_id_map/reemc_joint_map.yaml"
 
 RobotInterface:
   framework_name: "ROS"

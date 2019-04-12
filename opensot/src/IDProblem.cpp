@@ -56,10 +56,12 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _dynamics = boost::make_shared<OpenSoT::constraints::acceleration::DynamicFeasibility>("dynamics", *_model,
         _id->getJointsAccelerationAffine(), _id->getContactsWrenchAffine(), links_in_contact);
 
-    OpenSoT::constraints::force::FrictionCone::friction_cones mus;
+    Eigen::Matrix3d T; T.setIdentity();
+    OpenSoT::constraints::force::FrictionCones::friction_cones mus;
     for(unsigned int i = 0; i < links_in_contact.size(); ++i)
-        mus.push_back(std::pair<std::string, double>(links_in_contact[i], 0.3));
-    _friction_cones = boost::make_shared<OpenSoT::constraints::force::FrictionCone>(_id->getContactsWrenchAffine(),*_model,mus);
+        mus.push_back(std::pair<Eigen::Matrix3d, double>(T, 0.3));
+    _friction_cones = boost::make_shared<OpenSoT::constraints::force::FrictionCones>(
+                links_in_contact,_id->getContactsWrenchAffine(),*_model,mus);
 
     /// HERE WE SET SOME BOUNDS
     OpenSoT::AffineHelper I = OpenSoT::AffineHelper::Identity(_id->getSerializer()->getSize());
