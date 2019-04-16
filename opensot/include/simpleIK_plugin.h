@@ -59,11 +59,22 @@ private:
     Eigen::VectorXd _q, _dq;
 
     XBot::MatLogger::Ptr _logger;
-
+    
+    XBot::ModelInterface::Ptr _model;
+    
     OpenSoT::IKProblem::Ptr _opensot;
 
     Eigen::Affine3d _pose;
-
+    
+    Eigen::Affine3d _l_sole_pose;
+    Eigen::Affine3d _r_sole_pose;
+    
+    
+    Eigen::Vector3d _com_ref;
+    Eigen::Vector3d _zmp_ref;
+    
+    bool _first_sync_done;
+     
 };
 
 }

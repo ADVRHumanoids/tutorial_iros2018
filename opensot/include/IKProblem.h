@@ -2,6 +2,7 @@
 #define _IKPROBLEM_H_
 
 #include <OpenSoT/tasks/velocity/Postural.h>
+#include <OpenSoT/tasks/velocity/CoMStabilizer.h>
 #include <OpenSoT/constraints/velocity/JointLimits.h>
 #include <OpenSoT/constraints/velocity/VelocityLimits.h>
 #include <OpenSoT/utils/AutoStack.h>
@@ -49,7 +50,16 @@ public:
      * @brief _left_arm, _right_arm two Cartesian tasks
      */
     tasks::velocity::Cartesian::Ptr _left_arm, _right_arm;
+    
+    /**
+     * @brief _com the Center of Mass task
+     */
+    tasks::velocity::CoM::Ptr _com;
 
+    /**
+     * @brief _com_stab the Center of Mass task stabilizer
+     */
+    tasks::velocity::CoMStabilizer::Ptr _com_stab;
     /**
      * @brief _posture a postural task
      */

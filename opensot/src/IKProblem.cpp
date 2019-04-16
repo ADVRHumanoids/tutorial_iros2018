@@ -1,5 +1,7 @@
 #include <IKProblem.h>
 
+
+
 OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT):
     _model(model)
 {
@@ -23,8 +25,36 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT):
     // Ids to select rows of the right arm, in particular we are considering just the position part
     std::list<uint> pos_idx = {0, 1, 2};
     auto right_arm_pos = _right_arm % pos_idx;
+        
+    // CoM task initialization
+    _com = boost::make_shared<tasks::velocity::CoM>(q, *model);
+    
+    // CoMStabilizer task initialization
+    
+    
+    Eigen::Affine3d ankle;
+    _model->getPose("l_ankle", "l_sole", ankle);
+    
+    Eigen::Vector2d foot_size;
+    foot_size<< 0.21,0.11;
+    
+    double Fzmin = 10.;
+    double dt = 0.001;
+    Eigen::Vector3d K(0.09,0.09,0.);
+    Eigen::Vector3d C(-0.005,-0.005,0.);
+    
+    _com_stab = boost::make_shared<tasks::velocity::CoMStabilizer>(q, *model,
+                                                                   dt,
+                                                                   _model->getMass(), 
+                                                                   fabs(ankle(2,3)),
+                                                                   foot_size,
+                                                                   Fzmin,
+                                                                   K,C,
+                                                                   Eigen::Vector3d(DEFAULT_MaxLimsx, DEFAULT_MaxLimsy, DEFAULT_MaxLimsz),
+                                                                   Eigen::Vector3d(DEFAULT_MinLimsx, DEFAULT_MinLimsy, DEFAULT_MinLimsz)
+                                                                   );
 
-    // Postural task initialization
+                                
     _posture = boost::make_shared<tasks::velocity::Postural>(q);
 
     // Get Inertia matrix from the model computed at q
@@ -44,7 +74,7 @@ OpenSoT::IKProblem::IKProblem(XBot::ModelInterface::Ptr model, const double dT):
     /*
      *  The Math of Tasks
      */
-    _ik_problem = ( (_left_arm + right_arm_pos) /
+    _ik_problem = (  _com /   //_com_stab   //  (_left_arm + _left_arm)
                     _posture) << _joint_limits << _vel_limits;
 
     // Initialization of the solver, qpOASES is the default back end, 1e8 is the value of the regularization term
