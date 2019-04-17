@@ -40,7 +40,7 @@ bool simpleIK::init_control_plugin(XBot::Handle::Ptr handle)
     double dt = 0.001;
 
     // Initialization of IKProblem class
-    _opensot = boost::make_shared<OpenSoT::IKProblem>(_model, dt);
+    _opensot = boost::make_shared<OpenSoT::IKProblem>(_model, _robot, dt);
 
     return true;
 }
@@ -70,31 +70,43 @@ void simpleIK::on_start(double time)
 
     _model->getCOM(_com_ref);
     
-    std::cout << "com_initial: " << _com_ref.transpose() <<std::endl;
+    
+    
+//     if (_stab == 1)
+//     {
      
+        Eigen::Vector6d left_wrench;
+        _robot->getForceTorque().at("l_leg_ft")->getWrench(left_wrench);
+        Eigen::Vector6d right_wrench;
+        _robot->getForceTorque().at("r_leg_ft")->getWrench(right_wrench);
+        
 
-     
-    Eigen::Vector6d left_wrench;
-    _robot->getForceTorque().at("l_leg_ft")->getWrench(left_wrench);
-    Eigen::Vector6d right_wrench;
-    _robot->getForceTorque().at("r_leg_ft")->getWrench(right_wrench);
-    
-    left_wrench *= -1;
-    right_wrench *= -1;
-//      
-//      
-//       
-       _opensot->_com->setReference(_com_ref);
        
-//     _zmp_ref = _com_ref;
-//     _opensot->_com_stab->setZMP(_zmp_ref);
-//     _opensot->_com_stab->setSoleRef(_l_sole_pose.translation(), _r_sole_pose.translation());
-//     _opensot->_com_stab->setWrench(left_wrench, right_wrench);
-// // 
-// //     
-//     _opensot->_com_stab->setReference(_com_ref);
+        _zmp_ref = _com_ref.head(2);
+        _opensot->_com_stab->setZMP(_zmp_ref);
+        _opensot->_com_stab->setSoleRef(_l_sole_pose, _r_sole_pose);
+//         _opensot->_com_stab->setWrench(left_wrench, right_wrench);
+        _opensot->_com_stab->setReference(_com_ref);
+        
+        _opensot->update(_q);
+        
+     Eigen::Affine3d _pose;
+    _robot->model().getPose(_opensot->_right_arm->getDistalLink(), _opensot->_right_arm->getBaseLink(), _pose);
+    _opensot->_right_arm->setReference(_pose.matrix());
+
+    _robot->model().getPose(_opensot->_left_arm->getDistalLink(), _opensot->_left_arm->getBaseLink(), _pose);
+    _opensot->_left_arm->setReference(_pose.matrix());
+        
+    _opensot->_posture->setReference(_q);
+        
+//     }
+//     else
+//     {
+//        _opensot->_com->setReference(_com_ref); 
+//     }
     
-    _com_ref[2] -= 0.1;
+    
+//     _com_ref[2] -= 0.1;
     
 
     
@@ -122,34 +134,45 @@ bool simpleIK::close()
 void simpleIK::control_loop(double time, double period)
 {
         
+//     _model->getCOM(_com_ref);
     
-    
+//      if (_stab == 1)
+//     {
     Eigen::Vector6d left_wrench;
     _robot->getForceTorque().at("l_leg_ft")->getWrench(left_wrench);
     Eigen::Vector6d right_wrench;
     _robot->getForceTorque().at("r_leg_ft")->getWrench(right_wrench);
     
-    left_wrench *= -1;
-    right_wrench *= -1;
+//     left_wrench *= -1;
+//     right_wrench *= -1;
      
      
-//     _zmp_ref = _com_ref;
-// //     
-//     _opensot->_com_stab->setZMP(_zmp_ref);
+//     _zmp_ref = _com_initial;
 //     
+//     _opensot->_com_stab->setZMP(_zmp_ref);
+    
 //     _model->getPose("l_sole", _l_sole_pose);
 //     _model->getPose("r_sole", _r_sole_pose);
-//     
+    
 //     _opensot->_com_stab->setSoleRef(_l_sole_pose.translation(), _r_sole_pose.translation());
+    
+    
+    
 //     _opensot->_com_stab->setWrench(left_wrench, right_wrench);
+    
+    
+    
 //     _opensot->_com_stab->setReference(_com_ref);
     
-    _opensot->_com->setReference(_com_ref);
+//     std::cout << com_ref: << com_ref << std::endl;
+//     }
+//     else
+//     {
+//         _opensot->_com->setReference(_com_ref);
+//     }
     
 
-    /* Model Update*/
-    _model->setJointPosition(_q);
-    _model->update();
+    
 
     /* ik update */
     _opensot->update(_q);
@@ -158,7 +181,13 @@ void simpleIK::control_loop(double time, double period)
     /* solve */
     if(!_opensot->solve(_dq))
         XBot::Logger::error("OpenSoT can not solve!");
+    
+    /* Update q */
     _q += _dq;
+    
+    /* Model Update*/
+    _model->setJointPosition(_q);
+    _model->update();
 
 
     _logger->add("time", time);
@@ -167,11 +196,8 @@ void simpleIK::control_loop(double time, double period)
     _opensot->log(_logger);
 
 
-    Eigen::Vector3d something;
-    _model->getCOM(something);
-    std::cout << "com_updated: " << something.transpose() << std::endl;
-    
     _robot->setPositionReference(_q.segment(6, _q.size()-6));
+    
     _robot->move();
 
 

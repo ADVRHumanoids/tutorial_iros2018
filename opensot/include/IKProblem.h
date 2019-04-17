@@ -7,6 +7,7 @@
 #include <OpenSoT/constraints/velocity/VelocityLimits.h>
 #include <OpenSoT/utils/AutoStack.h>
 #include <OpenSoT/solvers/iHQP.h>
+#include <XBotInterface/RobotInterface.h>
 
 namespace OpenSoT{
 
@@ -23,7 +24,7 @@ public:
      * @param model pointer to external model
      * @param dT control loop
      */
-    IKProblem(XBot::ModelInterface::Ptr model, const double dT);
+    IKProblem(XBot::ModelInterface::Ptr model, XBot::RobotInterface::Ptr robot, const double dT);
     ~IKProblem();
 
     /**
@@ -50,7 +51,7 @@ public:
      * @brief _left_arm, _right_arm two Cartesian tasks
      */
     tasks::velocity::Cartesian::Ptr _left_arm, _right_arm;
-    
+    tasks::velocity::Cartesian::Ptr _left_foot, _right_foot;
     /**
      * @brief _com the Center of Mass task
      */
@@ -95,6 +96,7 @@ private:
      * @brief _model
      */
     XBot::ModelInterface::Ptr _model;
+    XBot::RobotInterface::Ptr _robot;
 
 };
 

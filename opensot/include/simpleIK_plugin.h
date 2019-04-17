@@ -70,11 +70,10 @@ private:
     Eigen::Affine3d _r_sole_pose;
     
     
-    Eigen::Vector3d _com_ref;
-    Eigen::Vector3d _zmp_ref;
+    Eigen::Vector3d _com_ref, _com_initial;
+    Eigen::Vector2d _zmp_ref;
     
     bool _first_sync_done;
-     
 };
 
 }
