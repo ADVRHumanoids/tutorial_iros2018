@@ -1,4 +1,5 @@
 #include <cartesian_interface/CartesianInterfaceImpl.h>
+#include <cartesian_interface/problem/Postural.h>
 #include <IKProblem.h>
 
 
