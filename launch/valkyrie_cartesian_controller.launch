@@ -2,7 +2,7 @@
 
     <param name="robot_description" textfile="$(find tutorial_iros2018)/robots/valkyrie/urdf/valkyrie_sim_arm_mass_sims.urdf"/>
     <param name="robot_description_semantic" textfile="$(find tutorial_iros2018)/robots/valkyrie/valkyrie_sim_arm_mass_sims.srdf"/>
-    <param name="problem_description" textfile="$(find tutorial_iros2018)/cartesio/problems/valkyrie_simple_stack.yaml"/>
+    <param name="cartesian/problem_description" textfile="$(find tutorial_iros2018)/cartesio/problems/valkyrie_simple_stack.yaml"/>
     
     <arg name="solver" default="OpenSot"/>
     <arg name="prefix" default=""/>
