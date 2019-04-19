@@ -30,6 +30,8 @@ All the relative path in the config files are going to be calculated based on XB
 
 ## How to follow the tutorial?
 
+A set of references you should always keep in mind are here: https://github.com/ADVRHumanoids/XBotControl/wiki  
+
 The XBotControl tutorial tries to cover different components of the framework: you can follow it based on what are your need.
 
 In each of the folder of the tutorial you will find a Jupiter notebook (.ipynb) with the instructions and insights related to the specific section.
