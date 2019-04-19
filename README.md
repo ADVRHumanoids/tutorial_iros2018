@@ -21,11 +21,13 @@ Once you are done with the compilation, we should source the setup.bash of the c
 ```
 . ~/src/catkin_xbot_tutorial_ws/devel/setup.bash
 ```
-If you are not using the superbuild and you want to use the config file inside the tutorial workspace, you should also export the XBOT_ROOT variable based on where your workspace is:
+If you want to use the config file inside the tutorial workspace or your custom workspace, you should also export the XBOT_ROOT variable based on where your workspace is:
 
 ```
 export XBOT_ROOT=~/src/catkin_xbot_tutorial_ws/src
 ```
+All the relative path in the config files are going to be calculated based on XBOT_ROOT
+
 ## How to follow the tutorial?
 
 The XBotControl tutorial tries to cover different components of the framework: you can follow it based on what are your need.
