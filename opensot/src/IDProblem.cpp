@@ -42,7 +42,7 @@ IDProblem::IDProblem(XBot::ModelInterface::Ptr model, const double dT):
     _rf_foot->setLambda(1.);
 
 //   -----adding arm tasks----
-    _arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("arm", *_model, "_teleop_link5",
+    _arm = boost::make_shared<OpenSoT::tasks::acceleration::Cartesian>("arm", *_model, "teleop_link5",
             "world", _id->getJointsAccelerationAffine()); //_model->chain("right_arm").getTipLinkName()
     _arm->setLambda(10.);
 
