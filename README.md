@@ -3,7 +3,7 @@ IROS 2018 Software Tutorial for XBotControl: refer to https://github.com/ADVRHum
 
 ## Where to start?
 
-First of all you should follow the instruction here: https://github.com/ADVRHumanoids/XBotControl#install to install the latest version of XBotControl on your machine.
+First of all you should follow the instruction here: https://github.com/ADVRHumanoids/XBotControl/wiki/Install,-Configure,-Uninstall to install the latest version of XBotControl on your machine.
 
 After this, you should clone and build the tutorial: there are several options to do it, but probably the easiest is using the catkin build tool from ROS.
 
