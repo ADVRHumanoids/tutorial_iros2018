@@ -1,0 +1,75 @@
+XBotCore:
+  config_path: "tutorial_iros2018/configs/iCub/xbotcore/iCub_config.yaml"
+
+XBotInterface:
+  urdf_path: "tutorial_iros2018/robots/iCub/iCub.urdf"
+  srdf_path: "tutorial_iros2018/robots/iCub/iCub.srdf"
+  joint_map_path: "tutorial_iros2018/configs/iCub/joint_id_map/iCub_joint_map.yaml"
+
+RobotInterface:
+  framework_name: "ROS"
+
+ModelInterface:
+  model_type: "RBDL"
+  is_model_floating_base: "false"
+
+CartesianInterface:
+  solver: "OpenSot"
+  regularization: 1e-6
+  problem_description:
+    stack:
+      - ["LeftFoot", "RightFoot"]
+      - ["RightHand"]
+      - ["LeftHand"]
+      - ["Postural"]
+    constraints: ["JointLimits", "VelocityLimits"]
+
+    LeftFoot:
+      type: "Cartesian"
+      distal_link: "l_sole"
+      base_link: "root_link"
+      lambda: 0.1
+    
+    RightFoot:
+      type: "Cartesian"
+      distal_link: "r_sole"
+      base_link: "root_link"
+      lambda: 0.1
+
+    ComXY:
+      type: "Com"
+      indices: [0, 1]
+      
+    Postural:
+      type: "Postural"
+      lambda: 0.01
+    
+    LeftHand:
+      type: "Cartesian"
+      distal_link: "l_hand"
+      base_link: "root_link"
+      lambda: 0.1
+
+    RightHand:
+      type: "Cartesian"
+      distal_link: "r_hand"
+      base_link: "root_link"
+      lambda: 0.1
+  
+MasterCommunicationInterface:
+  framework_name: "ROS"
+
+XBotRTPlugins:
+  plugins: ["SimpleHoming", "simpleIK", "GcompPlugin"]
+  io_plugins: []
+  
+NRTPlugins:
+  plugins: []
+  
+WebServer:
+  enable: "false"
+  address: "127.0.0.1"
+  port: "8081"
+
+SimulationOptions:
+  verbose_mode: "true"

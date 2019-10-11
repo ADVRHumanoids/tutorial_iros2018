@@ -1,0 +1,55 @@
+RobotName: "iCub"
+
+GazeboXBotPlugin:
+  control_rate: 0.001
+  gains:
+    l_ankle_pitch: {p: 1000, d: 10}
+    l_ankle_roll: {p: 1000, d: 10}
+    l_elbow: {p: 1000, d: 10}
+    l_hip_pitch: {p: 1000, d: 10}
+    l_hip_roll: {p: 1000, d: 10}
+    l_hip_yaw: {p: 1000, d: 10}
+    l_knee: {p: 1000, d: 10}
+    l_shoulder_pitch: {p: 1000, d: 10}
+    l_shoulder_roll: {p: 1000, d: 10}
+    l_shoulder_yaw: {p: 1000, d: 10}
+    l_wrist_pitch: {p: 1000, d: 10}
+    l_wrist_prosup: {p: 1000, d: 10}
+    l_wrist_yaw: {p: 1000, d: 10}
+    neck_pitch: {p: 1000, d: 10}
+    neck_roll: {p: 1000, d: 10}
+    neck_yaw: {p: 1000, d: 10}
+    r_ankle_pitch: {p: 1000, d: 10}
+    r_ankle_roll: {p: 1000, d: 10}
+    r_elbow: {p: 1000, d: 10}
+    r_hip_pitch: {p: 1000, d: 10}
+    r_hip_roll: {p: 1000, d: 10}
+    r_hip_yaw: {p: 1000, d: 10}
+    r_knee: {p: 1000, d: 10}
+    r_shoulder_pitch: {p: 1000, d: 10}	
+    r_shoulder_roll: {p: 1000, d: 10}
+    r_shoulder_yaw: {p: 1000, d: 10}
+    r_wrist_pitch: {p: 1000, d: 10}
+    r_wrist_prosup: {p: 1000, d: 10}
+    r_wrist_yaw: {p: 1000, d: 10}
+    torso_pitch: {p: 1000, d: 10}
+    torso_roll: {p: 1000, d: 10}
+    torso_yaw: {p: 1000, d: 10}
+
+
+HALInterface:
+  lib_file: "libXBotEcat"
+  lib_name: "ETHERCAT"
+  IJoint: "libXBotEcat_Joint"
+  IEndEffectors:
+   - [[19,29] , "libXBotEcat_SoftHand"]
+  ISensors:
+   - [[18,28,147,157], "libXBotEcat_FT"]
+   - [[91], "libXBotEcat_IMU"]
+  
+
+  
+##### OTHER R-HAL SPECIFIC DATA
+  
+
+
