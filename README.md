@@ -24,7 +24,7 @@ Once you are done with the compilation, we should source the setup.bash of the c
 If you want to use the config file inside the tutorial workspace or your custom workspace, you should also export the XBOT_ROOT variable based on where your workspace is:
 
 ```
-export XBOT_ROOT=~/src/catkin_xbot_tutorial_ws/src
+export XBOT_ROOT=~/tutorial_iros2018
 ```
 All the relative path in the config files are going to be calculated based on XBOT_ROOT
 
