@@ -101,6 +101,8 @@ private:
      * @brief _x decision variables
      */
     Eigen::VectorXd _x;
+    
+    std::vector<Eigen::Vector6d> _wrench;
 
     Eigen::VectorXd _qddot;
 

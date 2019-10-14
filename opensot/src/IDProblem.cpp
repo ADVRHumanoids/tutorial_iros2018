@@ -106,7 +106,7 @@ bool IDProblem::solve(Eigen::VectorXd& tau)
     bool a = _solver->solve(_x);
     if(!a)
         return false;
-    a = _id->computedTorque(_x, tau, _qddot);
+    a = _id->computedTorque(_x, tau, _qddot, _wrench);
     return a;
 }
 
